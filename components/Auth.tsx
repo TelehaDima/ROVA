@@ -58,9 +58,7 @@ const Auth: React.FC<AuthProps> = ({ language, isRecoveryMode = false, onRecover
     setLoading(true);
     setErrorMsg(null);
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin,
-      });
+      const { error } = await supabase.auth.resetPasswordForEmail(email);
       if (error) throw error;
       setIsResetEmailSent(true);
     } catch (error: any) {
