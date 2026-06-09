@@ -1,0 +1,317 @@
+
+import { Language } from "./types";
+
+export const TRANSLATIONS = {
+  uk: {
+    appTitle: "Помічник Реставратора",
+    subtitle: "AI АСИСТЕНТ",
+    newProject: "Новий проект",
+    history: "Історія",
+    save: "Зберегти проект",
+    back: "Назад",
+    homeDesc: "Професійний інструмент для реставраторів. Аналіз пошкоджень, оцінка вартості та документація за допомогою ШІ.",
+    homeNewDesc: "Завантажити фото для аналізу",
+    homeHistDesc: "Перегляд збережених проектів",
+    homeChatDesc: "Поставити запитання експерту",
+    actionStart: "Почати",
+    actionOpen: "Відкрити",
+    actionChat: "Чат",
+    errRateLimit: "Ви вичерпали безкоштовний ліміт (15 запитів на хвилину). Будь ласка, нічого не натискайте і зачекайте 40-60 секунд, щоб Google обнулив квоту, а потім натисніть 'Спробувати знову'.",
+    errServerBusy: "Сервери Google зараз перевантажені. Зачекайте хвилинку і спробуйте знову.",
+    msgElementAdded: "Новий елемент додано",
+    msgProjectSaved: "Проект успішно збережено!",
+    msgProjectDeleted: "Проект видалено",
+    techRec: "Рекомендована техніка:",
+    chatProjWelcome: "Вітаю! Я готовий відповісти на запитання або виправити матеріали та пошкодження у цьому проекті.",
+    chatProjUpdated: "Я оновив проект.",
+    dateLocale: "uk-UA",
+    authEmail: "Email",
+    authPassword: "Пароль",
+    authLoginBtn: "Увійти",
+    authRegisterBtn: "Зареєструватися",
+    authSwitchToRegister: "Немає акаунта? Зареєструйтеся",
+    authSwitchToLogin: "Вже є акаунт? Увійти",
+    authRequiredField: "Заповніть це поле.",
+    authConfirmEmail: "Реєстрація успішна! Будь ласка, перевірте свою пошту та перейдіть за посиланням для підтвердження.",
+    authForgotPassword: "Забули пароль?",
+    authResetPassword: "Відновлення пароля",
+    authSendResetLink: "Надіслати посилання",
+    authResetEmailSent: "Посилання для відновлення надіслано на вашу пошту!",
+    authUpdatePassword: "Оновити пароль",
+    authSaveNewPassword: "Зберегти новий пароль",
+    authBackToLogin: "Повернутися до входу",
+    
+    // Upload
+    uploadTitle: "Новий Проект",
+    uploadDesc: "Оберіть спосіб завантаження зображення для оцінки реставрації",
+    photoBtn: "Зробити фото",
+    photoDesc: "Використати камеру",
+    galleryBtn: "Галерея",
+    galleryDesc: "Обрати файл",
+    dragDrop: "Або перетягніть файл у цю область",
+    analyzing: "Йде аналіз (Gemini AI)...",
+    analyzingSub: "Оцінка стану та підбір матеріалів (PLN)",
+
+    // Status
+    statusLoaded: "Зображення завантажено. Очікування відповіді від сервера...",
+    error: "Помилка",
+    retry: "Спробувати знову",
+    identifying: "Ідентифікація пошкоджень...",
+    translating: "Переклад звіту...",
+    addAdditionalPhoto: "Додати фото елемента",
+    analyzingAdditional: "Аналіз нового елемента...",
+
+    // Tabs
+    tabAnalysis: "Дефектування та Аналіз",
+    tabCalculator: "Кошторис та Матеріали",
+    tabChat: "Чат-експерт",
+
+    // Chat
+    chatPlaceholder: "Поставте запитання експерту...",
+    chatWelcome: "Вітаю! Я ваш ШІ-консультант з реставрації. Я допоможу з хімією, технологіями та підбором матеріалів. З чого почнемо?",
+    chatHint1: "Як очистити позолоту?",
+    chatHint2: "Розчинність Paraloid B-72",
+    chatHint3: "Зміцнення деревини",
+    chatLoading: "Експерт думає...",
+
+    // Analysis
+    condition: "Стан",
+    material: "Матеріал",
+    dimensions: "Габарити",
+    damages: "Виявлені пошкодження",
+    noDamages: "Пошкоджень не знайдено",
+    addDamage: "Додати пошкодження / нотатку",
+
+    // Calculator
+    summaryWorks: "Роботи",
+    summaryMaterials: "Матеріали",
+    summaryOverhead: "Накладні",
+    summaryTotal: "Підсумковий Кошторис",
+    calcTitle: "Калькуляція (PLN)",
+    overheadLabel: "Накладні витрати",
+    
+    tableDesc: "Опис",
+    tableName: "Найменування",
+    tableQty: "К-ть",
+    tableRate: "Витрата",
+    tablePrice: "Ціна (zł)",
+    tableSum: "Сума",
+    noMaterials: "Немає специфічних матеріалів",
+
+    // History
+    histTitle: "Збережені Проекти",
+    histEmpty: "Історія порожня. Збережіть свій перший проект!",
+    histOpen: "Відкрити проект",
+    
+    // Footer
+    footerDisclaimer: "Ціни та обсяги є оціночними та потребують перевірки фахівцем."
+  },
+  pl: {
+    appTitle: "Asystent Konserwatora",
+    subtitle: "ASYSTENT AI",
+    newProject: "Nowy Projekt",
+    history: "Historia",
+    save: "Zapisz projekt",
+    back: "Wróć",
+    homeDesc: "Profesjonalne narzędzie dla konserwatorów. Analiza uszkodzeń, wycena i dokumentacja z wykorzystaniem AI.",
+    homeNewDesc: "Prześlij zdjęcie do analizy",
+    homeHistDesc: "Przeglądaj zapisane projekty",
+    homeChatDesc: "Zapytaj eksperta AI",
+    actionStart: "Rozpocznij",
+    actionOpen: "Otwórz",
+    actionChat: "Czat",
+    errRateLimit: "Wykorzystano darmowy limit (15 zapytań na minutę). Proszę nic nie klikać i poczekać 40-60 sekund na zresetowanie limitu przez Google, a następnie kliknąć 'Spróbuj ponownie'.",
+    errServerBusy: "Serwery Google są obecnie przeciążone. Poczekaj chwilę i spróbuj ponownie.",
+    msgElementAdded: "Dodano nowy element",
+    msgProjectSaved: "Zapisano pomyślnie!",
+    msgProjectDeleted: "Projekt usunięty",
+    techRec: "Zalecana technika:",
+    chatProjWelcome: "Witaj! Jestem gotowy odpowiedzieć na pytania lub poprawić materiały i szkody w tym projekcie.",
+    chatProjUpdated: "Uaktualniłem projekt.",
+    dateLocale: "pl-PL",
+    authEmail: "Email",
+    authPassword: "Hasło",
+    authLoginBtn: "Zaloguj się",
+    authRegisterBtn: "Zarejestruj się",
+    authSwitchToRegister: "Nie masz konta? Zarejestruj się",
+    authSwitchToLogin: "Masz już konto? Zaloguj się",
+    authRequiredField: "Proszę wypełnić to pole.",
+    authConfirmEmail: "Rejestracja zakończona sukcesem! Sprawdź swoją skrzynkę e-mail i kliknij w link potwierdzający.",
+    authForgotPassword: "Zapomniałeś hasła?",
+    authResetPassword: "Zresetuj hasło",
+    authSendResetLink: "Wyślij link",
+    authResetEmailSent: "Link do zresetowania hasła został wysłany!",
+    authUpdatePassword: "Zaktualizuj hasło",
+    authSaveNewPassword: "Zapisz nowe hasło",
+    authBackToLogin: "Powrót do logowania",
+    
+    // Upload
+    uploadTitle: "Nowy Projekt",
+    uploadDesc: "Wybierz metodę przesłania zdjęcia do wyceny renowacji",
+    photoBtn: "Zrób zdjęcie",
+    photoDesc: "Użyj aparatu",
+    galleryBtn: "Galeria",
+    galleryDesc: "Wybierz plik",
+    dragDrop: "Lub przeciągnij plik tutaj",
+    analyzing: "Trwa analiza (Gemini AI)...",
+    analyzingSub: "Ocena stanu i dobór materiałów (PLN)",
+
+    // Status
+    statusLoaded: "Zdjęcie załadowane. Oczekiwanie na odpowiedź serwera...",
+    error: "Błąd",
+    retry: "Spróbuj ponownie",
+    identifying: "Identyfikacja uszkodzeń...",
+    translating: "Tłumaczenie raportu...",
+    addAdditionalPhoto: "Dodaj zdjęcie elementu",
+    analyzingAdditional: "Analiza nowego elementu...",
+
+    // Tabs
+    tabAnalysis: "Analiza i Uszkodzenia",
+    tabCalculator: "Kosztorys i Materiały",
+    tabChat: "Czat-ekspert",
+
+    // Chat
+    chatPlaceholder: "Zadaj pytanie ekspertowi...",
+    chatWelcome: "Dzień dobry! Jestem Twoim asystentem AI ds. konserwacji. Pomogę Ci z chemią, technologiami i doborem materiałów. Od czego zaczniemy?",
+    chatHint1: "Jak czyścić złocenia?",
+    chatHint2: "Rozpuszczalność Paraloid B-72",
+    chatHint3: "Konsolidacja drewna",
+    chatLoading: "Ekspert myśli...",
+
+    // Analysis
+    condition: "Stan",
+    material: "Materiał",
+    dimensions: "Wymiary",
+    damages: "Wykryte uszkodzenia",
+    noDamages: "Nie znaleziono uszkodzeń",
+    addDamage: "Dodaj uszkodzenie / notatkę",
+
+    // Calculator
+    summaryWorks: "Prace",
+    summaryMaterials: "Materiały",
+    summaryOverhead: "Narzut",
+    summaryTotal: "Koszt Całkowity",
+    calcTitle: "Kalkulacja (PLN)",
+    overheadLabel: "Koszty pośrednie",
+    
+    tableDesc: "Opis",
+    tableName: "Nazwa",
+    tableQty: "Ilość",
+    tableRate: "Zużycie",
+    tablePrice: "Cena (zł)",
+    tableSum: "Suma",
+    noMaterials: "Brak specyficznych materiałów",
+
+    // History
+    histTitle: "Zapisane Projekty",
+    histEmpty: "Historia jest pusta. Zapisz swój pierwszy projekt!",
+    histOpen: "Otwórz projekt",
+
+    // Footer
+    footerDisclaimer: "Ceny i ilości są szacunkowe i wymagają weryfikacji przez specjalistę."
+  },
+  en: {
+    appTitle: "Restorer Assistant",
+    subtitle: "AI ASSISTANT",
+    newProject: "New Project",
+    history: "History",
+    save: "Save Project",
+    back: "Back",
+    homeDesc: "Professional tool for restorers. Damage analysis, estimation and documentation using AI.",
+    homeNewDesc: "Upload photo for analysis",
+    homeHistDesc: "View saved projects",
+    homeChatDesc: "Ask the expert a question",
+    actionStart: "Start",
+    actionOpen: "Open",
+    actionChat: "Chat",
+    errRateLimit: "You have exceeded the free limit (15 requests per minute). Please do not click anything and wait 40-60 seconds for Google to reset the quota, then click 'Try again'.",
+    errServerBusy: "Google servers are currently overloaded. Wait a minute and try again.",
+    msgElementAdded: "New element added",
+    msgProjectSaved: "Project saved successfully!",
+    msgProjectDeleted: "Project deleted",
+    techRec: "Recommended technique:",
+    chatProjWelcome: "Hello! I'm ready to answer your questions or correct materials and damages in this project.",
+    chatProjUpdated: "I have updated the project.",
+    dateLocale: "en-US",
+    authEmail: "Email",
+    authPassword: "Password",
+    authLoginBtn: "Sign In",
+    authRegisterBtn: "Sign Up",
+    authSwitchToRegister: "Don't have an account? Sign Up",
+    authSwitchToLogin: "Already have an account? Sign In",
+    authRequiredField: "Please fill out this field.",
+    authConfirmEmail: "Registration successful! Please check your email and click the confirmation link.",
+    authForgotPassword: "Forgot password?",
+    authResetPassword: "Reset Password",
+    authSendResetLink: "Send reset link",
+    authResetEmailSent: "Reset link sent to your email!",
+    authUpdatePassword: "Update Password",
+    authSaveNewPassword: "Save new password",
+    authBackToLogin: "Back to login",
+    
+    // Upload
+    uploadTitle: "New Project",
+    uploadDesc: "Select a method to upload an image for restoration assessment",
+    photoBtn: "Take Photo",
+    photoDesc: "Use camera",
+    galleryBtn: "Gallery",
+    galleryDesc: "Choose file",
+    dragDrop: "Or drag and drop a file here",
+    analyzing: "Analyzing (Gemini AI)...",
+    analyzingSub: "Condition assessment and materials selection (PLN)",
+
+    // Status
+    statusLoaded: "Image loaded. Waiting for server response...",
+    error: "Error",
+    retry: "Try again",
+    identifying: "Identifying damages...",
+    translating: "Translating report...",
+    addAdditionalPhoto: "Add element photo",
+    analyzingAdditional: "Analyzing new element...",
+
+    // Tabs
+    tabAnalysis: "Analysis & Damages",
+    tabCalculator: "Estimate & Materials",
+    tabChat: "Expert Chat",
+
+    // Chat
+    chatPlaceholder: "Ask the expert a question...",
+    chatWelcome: "Hello! I'm your AI restoration assistant. I can help with chemistry, technology, and material selection. Where should we start?",
+    chatHint1: "How to clean gilding?",
+    chatHint2: "Paraloid B-72 solubility",
+    chatHint3: "Wood consolidation",
+    chatLoading: "Expert is thinking...",
+
+    // Analysis
+    condition: "Condition",
+    material: "Material",
+    dimensions: "Dimensions",
+    damages: "Identified damages",
+    noDamages: "No damages found",
+    addDamage: "Add damage / note",
+
+    // Calculator
+    summaryWorks: "Works",
+    summaryMaterials: "Materials",
+    summaryOverhead: "Overhead",
+    summaryTotal: "Grand Total",
+    calcTitle: "Calculation (PLN)",
+    overheadLabel: "Overhead costs",
+    
+    tableDesc: "Description",
+    tableName: "Name",
+    tableQty: "Qty",
+    tableRate: "Rate",
+    tablePrice: "Price (zł)",
+    tableSum: "Sum",
+    noMaterials: "No specific materials",
+
+    // History
+    histTitle: "Saved Projects",
+    histEmpty: "History is empty. Save your first project!",
+    histOpen: "Open project",
+    
+    // Footer
+    footerDisclaimer: "Prices and quantities are estimates and require expert verification."
+  }
+};
