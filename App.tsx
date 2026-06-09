@@ -273,19 +273,18 @@ const App: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-40 transition-all duration-300">
-        <div className="mx-auto px-6 py-6">
-          <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between shadow-lg">
+        <div className="mx-auto px-3 py-3 md:px-6 md:py-6">
+          <div className="bg-slate-900/95 md:bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl px-4 py-3 md:px-6 md:py-4 flex flex-wrap items-center justify-between gap-3 shadow-lg">
             <div 
               className="flex items-center gap-4 cursor-pointer group"
               onClick={handleReset}
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
-                 <LayoutDashboard size={24} />
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg transform transition-transform group-hover:scale-105 group-active:scale-95">
+                 <LayoutDashboard className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <div>
-                <h1 className="text-xl md:text-2xl font-serif font-bold text-white leading-none tracking-tight">{t.appTitle}</h1>
+                <h1 className="text-lg md:text-2xl font-serif font-bold text-white leading-tight md:leading-none tracking-tight">{t.appTitle}</h1>
                 <p className="text-[10px] md:text-xs text-slate-400 font-medium tracking-widest uppercase mt-1 opacity-80 group-hover:opacity-100 transition-opacity">{t.subtitle}</p>
               </div>
             </div>
@@ -336,7 +335,7 @@ const App: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-32 md:pt-44 pb-12 relative z-10">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-48 md:pt-48 pb-12 relative z-10">
         {!session || isRecovery ? (
           <Auth language={language} isRecoveryMode={isRecovery} onRecoveryComplete={() => setIsRecovery(false)} />
         ) : (
