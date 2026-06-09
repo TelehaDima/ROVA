@@ -336,7 +336,7 @@ const App: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-12 relative z-10">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 pt-32 md:pt-44 pb-12 relative z-10">
         {!session || isRecovery ? (
           <Auth language={language} isRecoveryMode={isRecovery} onRecoveryComplete={() => setIsRecovery(false)} />
         ) : (

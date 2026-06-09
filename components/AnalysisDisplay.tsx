@@ -103,7 +103,7 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
               
             <div className="pt-2">
               <span className="text-slate-400 block mb-3 font-medium uppercase tracking-wider text-xs">{t.damages}:</span>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 bg-red-500/5 p-4 rounded-2xl border border-red-500/10">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 bg-red-500/5 p-4 rounded-2xl border border-red-500/10">
                 {comp.damages.map((damage, idx) => (
                   <div key={idx} className="relative group animate-scale-in bg-black/20 p-3 rounded-xl border border-red-500/20 hover:border-red-500/40 transition-colors flex flex-col h-full">
                      <div className="flex justify-between mb-2 items-center">
@@ -127,7 +127,8 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                      <textarea 
                         value={damage.description}
                         onChange={(e) => updateDamage(compIndex, idx, 'description', e.target.value)}
-                        className="w-full flex-grow p-1 text-sm text-slate-200 bg-transparent border-none focus:ring-0 outline-none resize-none min-h-[60px] placeholder-slate-600 leading-relaxed"
+                        rows={4}
+                        className="w-full flex-grow p-1 text-sm text-slate-200 bg-transparent border-none focus:ring-0 outline-none resize-y min-h-[80px] placeholder-slate-600 leading-relaxed"
                         placeholder="..."
                      />
                      {damage.technique && (
@@ -136,7 +137,8 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                          <textarea 
                             value={damage.technique}
                             onChange={(e) => updateDamage(compIndex, idx, 'technique', e.target.value)}
-                            className="w-full p-1 text-sm text-purple-200 bg-transparent border-none focus:ring-0 outline-none resize-none min-h-[50px] placeholder-purple-900/50 leading-relaxed"
+                            rows={3}
+                            className="w-full p-1 text-sm text-purple-200 bg-transparent border-none focus:ring-0 outline-none resize-y min-h-[70px] placeholder-purple-900/50 leading-relaxed"
                             placeholder="..."
                          />
                        </div>
