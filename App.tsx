@@ -42,7 +42,7 @@ const App: React.FC = () => {
   const additionalCameraRef = useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState<TabState>('analysis');
   const [error, setError] = useState<string | null>(null);
-  const [language, setLanguage] = useState<Language>('uk');
+  const [language, setLanguage] = useState<Language>('pl');
   const [isMobile, setIsMobile] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [isRecovery, setIsRecovery] = useState(false);
