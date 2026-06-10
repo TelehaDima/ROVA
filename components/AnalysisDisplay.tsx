@@ -50,6 +50,12 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
     en: { 'Very Low': 'Very Low', Low: 'Low', Medium: 'Medium', High: 'High', 'Very High': 'Very High', Minor: 'Minor', Moderate: 'Moderate', Severe: 'Severe', Critical: 'Critical' }
   };
 
+  const categoryMap: Record<Language, Record<string, string>> = {
+    uk: { SURFACE: 'Поверхня', STRUCTURAL: 'Структура', BIOLOGICAL: 'Біологічні', CHEMICAL: 'Хімічні', MECHANICAL: 'Механічні', OTHER: 'Інше', GENERAL: 'Загальні' },
+    pl: { SURFACE: 'Powierzchnia', STRUCTURAL: 'Strukturalne', BIOLOGICAL: 'Biologiczne', CHEMICAL: 'Chemiczne', MECHANICAL: 'Mechaniczne', OTHER: 'Inne', GENERAL: 'Ogólne' },
+    en: { SURFACE: 'Surface', STRUCTURAL: 'Structural', BIOLOGICAL: 'Biological', CHEMICAL: 'Chemical', MECHANICAL: 'Mechanical', OTHER: 'Other', GENERAL: 'General' }
+  };
+
   return (
     <div className="space-y-8">
       {/* General Report */}
@@ -107,7 +113,7 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                 {comp.damages.map((damage, idx) => (
                   <div key={idx} className="relative group animate-scale-in bg-black/20 p-3 rounded-xl border border-red-500/20 hover:border-red-500/40 transition-colors flex flex-col h-full">
                      <div className="flex justify-between mb-2 items-center">
-                        <span className="text-[10px] font-bold text-red-300 uppercase bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">{damage.category}</span>
+                        <span className="text-[10px] font-bold text-red-300 uppercase bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">{categoryMap[language][damage.category?.toUpperCase()] || damage.category}</span>
                         <select
                             value={damage.severity}
                             onChange={(e) => updateDamage(compIndex, idx, 'severity', e.target.value)}
