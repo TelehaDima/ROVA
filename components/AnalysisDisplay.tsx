@@ -134,8 +134,8 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                         value={damage.description}
                         onChange={(e) => updateDamage(compIndex, idx, 'description', e.target.value)}
                         rows={4}
-                        className="w-full flex-grow p-1 text-sm text-slate-200 bg-transparent border-none focus:ring-0 outline-none resize-y min-h-[80px] placeholder-slate-600 leading-relaxed"
-                        placeholder="..."
+                        className="w-full flex-grow p-2 text-sm text-slate-200 bg-black/20 border border-red-500/10 focus:border-red-500/30 rounded-lg outline-none resize-y min-h-[80px] placeholder-slate-500 leading-relaxed transition-colors"
+                        placeholder="Wpisz notatkę lub opis uszkodzenia..."
                      />
                      {damage.technique && (
                        <div className="mt-2 pt-2 border-t border-red-500/10">
@@ -144,14 +144,14 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                             value={damage.technique}
                             onChange={(e) => updateDamage(compIndex, idx, 'technique', e.target.value)}
                             rows={3}
-                            className="w-full p-1 text-sm text-purple-200 bg-transparent border-none focus:ring-0 outline-none resize-y min-h-[70px] placeholder-purple-900/50 leading-relaxed"
+                            className="w-full p-2 text-sm text-purple-200 bg-black/20 border border-purple-500/10 focus:border-purple-500/30 rounded-lg outline-none resize-y min-h-[70px] placeholder-purple-900/50 leading-relaxed transition-colors"
                             placeholder="..."
                          />
                        </div>
                      )}
                      <button 
                        onClick={() => removeDamage(compIndex, idx)}
-                       className="absolute top-2 right-2 text-slate-500 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100 p-1 bg-black/40 rounded-full hover:bg-black/60"
+                       className="absolute -top-2 -right-2 p-1.5 bg-red-500/20 hover:bg-red-500/40 text-red-200 rounded-full border border-red-500/20 backdrop-blur-sm transition-all shadow-sm opacity-80 hover:opacity-100 z-10"
                        title="Remove"
                      >
                        <X size={14} />
