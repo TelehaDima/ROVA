@@ -369,7 +369,7 @@ const App: React.FC = () => {
                   className="group relative overflow-hidden rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 p-8 cursor-pointer shadow-2xl hover:shadow-purple-500/20 transition-all duration-500"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative z-10 flex flex-col items-start h-full">
+                  <div className="relative z-10 flex flex-col items-center text-center h-full">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-purple-500/40 transition-shadow">
                       <Upload className="text-white w-8 h-8" />
                     </div>
@@ -392,7 +392,7 @@ const App: React.FC = () => {
                   className="group relative overflow-hidden rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 p-8 cursor-pointer shadow-2xl hover:shadow-blue-500/20 transition-all duration-500"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative z-10 flex flex-col items-start h-full">
+                  <div className="relative z-10 flex flex-col items-center text-center h-full">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-blue-500/40 transition-shadow">
                       <History className="text-white w-8 h-8" />
                     </div>
@@ -415,7 +415,7 @@ const App: React.FC = () => {
                   className="group relative overflow-hidden rounded-[2rem] bg-white/5 backdrop-blur-2xl border border-white/10 p-8 cursor-pointer shadow-2xl hover:shadow-emerald-500/20 transition-all duration-500"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="relative z-10 flex flex-col items-start h-full">
+                  <div className="relative z-10 flex flex-col items-center text-center h-full">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-6 shadow-lg group-hover:shadow-emerald-500/40 transition-shadow">
                       <MessageSquare className="text-white w-8 h-8" />
                     </div>
