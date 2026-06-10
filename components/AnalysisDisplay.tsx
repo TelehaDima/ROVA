@@ -64,7 +64,9 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
            <AlertTriangle className="text-amber-400" />
            {report.objectName}
         </h3>
-        <p className="text-amber-100/80 leading-relaxed text-lg font-light">{report.generalCondition}</p>
+        <p className="text-amber-100/80 leading-relaxed text-lg font-light">
+          {conditionMap[language]?.[report.generalCondition] || report.generalCondition}
+        </p>
       </div>
 
       <div className="flex flex-col gap-8">
