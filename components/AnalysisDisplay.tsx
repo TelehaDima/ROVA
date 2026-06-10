@@ -91,13 +91,13 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
             </div>
             
             <div className="flex flex-col sm:flex-row flex-wrap gap-x-8 gap-y-4 text-sm mb-6 pb-6 border-b border-white/5">
-              <div className="flex items-start sm:items-center gap-2">
-                <span className="text-slate-400 flex items-center gap-2 shrink-0 mt-0.5 sm:mt-0"><Layers size={14} /> {t.material}:</span>
-                <span className="font-medium text-slate-200 break-words">{comp.material}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
+                <span className="text-slate-400 flex items-center gap-2 shrink-0"><Layers size={14} /> {t.material}:</span>
+                <span className="font-medium text-slate-200 break-words w-full sm:w-auto">{comp.material}</span>
               </div>
-              <div className="flex items-start sm:items-center gap-2">
-                <span className="text-slate-400 flex items-center gap-2 shrink-0 mt-0.5 sm:mt-0"><Ruler size={14} /> {t.dimensions}:</span>
-                <span className="font-medium text-slate-200 break-words">{comp.dimensions}</span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
+                <span className="text-slate-400 flex items-center gap-2 shrink-0"><Ruler size={14} /> {t.dimensions}:</span>
+                <span className="font-medium text-slate-200 break-words w-full sm:w-auto">{comp.dimensions}</span>
               </div>
             </div>
               
