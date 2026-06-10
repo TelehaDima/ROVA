@@ -113,7 +113,7 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                 {comp.damages.map((damage, idx) => (
                   <div key={idx} className="relative group animate-scale-in bg-black/20 p-3 rounded-xl border border-red-500/20 hover:border-red-500/40 transition-colors flex flex-col h-full">
                      <div className="flex justify-between mb-2 items-center">
-                        <span className="text-[10px] font-bold text-red-300 uppercase bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">{categoryMap[language][damage.category?.toUpperCase()] || damage.category}</span>
+                        <span className="text-[10px] font-bold text-red-300 uppercase bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">{categoryMap[language][damage.category?.trim().toUpperCase()] || damage.category}</span>
                         <select
                             value={damage.severity}
                             onChange={(e) => updateDamage(compIndex, idx, 'severity', e.target.value)}
