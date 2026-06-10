@@ -548,7 +548,7 @@ const App: React.FC = () => {
                             className={`w-full py-3 px-2 bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-500/30 text-purple-300 rounded-xl hover:bg-purple-500/30 transition-all flex flex-col items-center justify-center gap-1 text-sm font-medium ${isAddingPhoto ? 'opacity-50 cursor-not-allowed' : ''}`}
                           >
                              <Upload className="w-5 h-5" />
-                             <span className="text-[10px] md:text-xs">Камера</span>
+                             <span className="text-[10px] md:text-xs">{t.cameraBtn}</span>
                           </button>
                         )}
                         <button 
@@ -564,7 +564,7 @@ const App: React.FC = () => {
                           ) : (
                             <>
                               <Upload className="w-4 h-4 md:w-5 md:h-5" />
-                              <span className="text-[10px] md:text-xs text-center">{isMobile ? 'Галерея' : t.addAdditionalPhoto}</span>
+                              <span className="text-[10px] md:text-xs text-center">{isMobile ? t.galleryBtn : t.addAdditionalPhoto}</span>
                             </>
                           )}
                         </button>
