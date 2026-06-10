@@ -112,14 +112,14 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                          <span className="ml-auto text-sm font-normal text-slate-400 font-mono bg-white/5 px-3 py-1 rounded-lg border border-white/5">{t.dimensions}: {comp.dimensions}</span>
                      </h4>
 
-                     <div className="grid lg:grid-cols-2 gap-10">
+                     <div className="grid xl:grid-cols-2 gap-10">
                          {/* Works Table */}
-                         <div>
+                         <div className="min-w-0">
                              <h5 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Hammer size={12} /> {t.summaryWorks}
                              </h5>
                              <div className="overflow-x-auto rounded-xl border border-white/5">
-                                 <table className="w-full text-sm text-left">
+                                 <table className="w-full min-w-[500px] text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium">{t.tableDesc}</th>
@@ -180,12 +180,12 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                          </div>
 
                          {/* Materials Table */}
-                         <div>
+                         <div className="min-w-0">
                              <h5 className="text-xs font-bold text-blue-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Package size={12} /> {t.summaryMaterials}
                              </h5>
                              <div className="overflow-x-auto rounded-xl border border-white/5">
-                                 <table className="w-full text-sm text-left">
+                                 <table className="w-full min-w-[500px] text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium">{t.tableName}</th>
