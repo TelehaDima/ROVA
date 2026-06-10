@@ -74,10 +74,10 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
             className="bg-white/5 p-4 md:p-6 rounded-3xl border border-white/10 shadow-lg hover:shadow-purple-500/10 transition-all duration-300 animate-slide-up backdrop-blur-md hover:bg-white/10"
             style={{ animationDelay: `${(compIndex + 1) * 100}ms` }}
           >
-            <div className="flex justify-between items-start mb-6">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-wrap justify-between items-start gap-4 mb-6">
+              <div className="flex items-center gap-4 min-w-[200px] flex-1">
                 {comp.sourceImage && (
-                  <div className="w-12 h-12 rounded-xl overflow-hidden border border-white/10 shrink-0">
+                  <div className="w-16 h-16 rounded-2xl overflow-hidden shrink-0 border border-white/10 shadow-inner">
                     <img src={comp.sourceImage} alt="Element" className="w-full h-full object-cover" />
                   </div>
                 )}
@@ -86,12 +86,12 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                    {comp.name}
                 </h4>
               </div>
-              <span className={`px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wide border
-                ${comp.condition === 'Good' ? 'bg-green-500/20 text-green-300 border-green-500/30' : ''}
-                ${comp.condition === 'Fair' ? 'bg-blue-500/20 text-blue-300 border-blue-500/30' : ''}
-                ${comp.condition === 'Poor' ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' : ''}
-                ${comp.condition === 'Critical' ? 'bg-red-500/20 text-red-300 border-red-500/30' : ''}
-              `}>
+              <span className={`shrink-0 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${
+                comp.condition === 'Good' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
+                comp.condition === 'Fair' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' : 
+                comp.condition === 'Poor' ? 'bg-orange-500/10 text-orange-400 border-orange-500/20' : 
+                'bg-red-500/10 text-red-400 border-red-500/20'
+              }`}>
                 {conditionMap[language][comp.condition] || comp.condition}
               </span>
             </div>
@@ -151,7 +151,7 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                      )}
                      <button 
                        onClick={() => removeDamage(compIndex, idx)}
-                       className="absolute -top-2 -right-2 p-1.5 bg-red-500/20 hover:bg-red-500/40 text-red-200 rounded-full border border-red-500/20 backdrop-blur-sm transition-all shadow-sm opacity-80 hover:opacity-100 z-10"
+                       className="absolute top-2 right-2 p-1.5 bg-red-500/20 hover:bg-red-500/40 text-red-200 rounded-full border border-red-500/20 backdrop-blur-sm transition-all shadow-sm opacity-80 hover:opacity-100 z-10"
                        title="Remove"
                      >
                        <X size={14} />
