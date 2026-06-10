@@ -112,23 +112,32 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
               <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 bg-red-500/5 p-4 rounded-2xl border border-red-500/10">
                 {comp.damages.map((damage, idx) => (
                   <div key={idx} className="relative group animate-scale-in bg-black/20 p-3 rounded-xl border border-red-500/20 hover:border-red-500/40 transition-colors flex flex-col h-full">
-                     <div className="flex justify-between mb-2 items-center">
-                        <span className="text-[10px] font-bold text-red-300 uppercase bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20">{categoryMap[language][damage.category?.trim().toUpperCase()] || damage.category}</span>
-                        <select
-                            value={damage.severity}
-                            onChange={(e) => updateDamage(compIndex, idx, 'severity', e.target.value)}
-                            className={`text-[10px] font-bold px-2 py-0.5 rounded border appearance-none outline-none cursor-pointer ${
-                                (damage.severity === 'High' || damage.severity === 'Severe' || damage.severity === 'Critical' || damage.severity === 'Very High') ? 'text-red-400 border-red-500/30 bg-red-500/10' : 
-                                (damage.severity === 'Medium' || damage.severity === 'Moderate') ? 'text-orange-400 border-orange-500/30 bg-orange-500/10' : 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10'
-                            }`}
+                     <div className="grid grid-cols-[auto_1fr_auto] gap-2 items-start mb-3">
+                        <span className="text-[10px] font-bold text-red-300 uppercase bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20 whitespace-nowrap mt-0.5">{categoryMap[language][damage.category?.trim().toUpperCase()] || damage.category}</span>
+                        <div className="flex justify-center min-w-0">
+                           <select
+                               value={damage.severity}
+                               onChange={(e) => updateDamage(compIndex, idx, 'severity', e.target.value)}
+                               className={`text-[10px] font-bold px-2 py-0.5 rounded border appearance-none outline-none cursor-pointer text-center max-w-full text-ellipsis overflow-hidden ${
+                                   (damage.severity === 'High' || damage.severity === 'Severe' || damage.severity === 'Critical' || damage.severity === 'Very High') ? 'text-red-400 border-red-500/30 bg-red-500/10' : 
+                                   (damage.severity === 'Medium' || damage.severity === 'Moderate') ? 'text-orange-400 border-orange-500/30 bg-orange-500/10' : 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10'
+                               }`}
+                           >
+                               {['Very Low', 'Low', 'Medium', 'High', 'Very High'].map(sev => (
+                                 <option key={sev} value={sev} className="bg-slate-800 text-white">{severityMap[language][sev] || sev}</option>
+                               ))}
+                               {!['Very Low', 'Low', 'Medium', 'High', 'Very High'].includes(damage.severity) && (
+                                 <option value={damage.severity} className="bg-slate-800 text-white">{severityMap[language][damage.severity] || damage.severity}</option>
+                               )}
+                           </select>
+                        </div>
+                        <button 
+                          onClick={() => removeDamage(compIndex, idx)}
+                          className="p-1 bg-red-500/20 hover:bg-red-500/40 text-red-200 rounded-full border border-red-500/20 backdrop-blur-sm transition-all shadow-sm opacity-80 hover:opacity-100 mt-0.5 shrink-0"
+                          title="Remove"
                         >
-                            {['Very Low', 'Low', 'Medium', 'High', 'Very High'].map(sev => (
-                              <option key={sev} value={sev} className="bg-slate-800 text-white">{severityMap[language][sev] || sev}</option>
-                            ))}
-                            {!['Very Low', 'Low', 'Medium', 'High', 'Very High'].includes(damage.severity) && (
-                              <option value={damage.severity} className="bg-slate-800 text-white">{severityMap[language][damage.severity] || damage.severity}</option>
-                            )}
-                        </select>
+                          <X size={12} />
+                        </button>
                      </div>
                      <textarea 
                         value={damage.description}
@@ -149,13 +158,6 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                          />
                        </div>
                      )}
-                     <button 
-                       onClick={() => removeDamage(compIndex, idx)}
-                       className="absolute top-2 right-2 p-1.5 bg-red-500/20 hover:bg-red-500/40 text-red-200 rounded-full border border-red-500/20 backdrop-blur-sm transition-all shadow-sm opacity-80 hover:opacity-100 z-10"
-                       title="Remove"
-                     >
-                       <X size={14} />
-                     </button>
                   </div>
                 ))}
                 {comp.damages.length === 0 && <p className="italic text-slate-500 text-sm mb-2 text-center col-span-full">{t.noDamages}</p>}
