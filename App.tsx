@@ -494,9 +494,8 @@ const App: React.FC = () => {
               exit={{ opacity: 0 }}
               className="grid lg:grid-cols-12 gap-8"
             >
-              {/* Sidebar / Image Preview */}
-              <div className="lg:col-span-4 space-y-6">
-                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl">
+              <div className="lg:col-span-4 space-y-6 min-w-0">
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl">
                   <h3 className="font-bold text-slate-300 mb-4 text-sm uppercase tracking-wider">Original Photo</h3>
                   <div className="relative rounded-2xl overflow-hidden bg-black/40 aspect-[3/4] group shadow-inner border border-white/5 mb-4">
                      {image && <img src={image} alt="Restoration Object" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />}
@@ -599,9 +598,9 @@ const App: React.FC = () => {
               </div>
 
               {/* Results Area */}
-              <div className="lg:col-span-8">
+              <div className="lg:col-span-8 min-w-0">
                 {report ? (
-                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 shadow-2xl min-h-[600px]">
+                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl min-h-[600px] overflow-hidden">
                      {/* Tabs */}
                      <div className="flex border-b border-white/10 overflow-x-auto mb-6">
                        <button

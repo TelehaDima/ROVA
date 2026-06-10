@@ -53,7 +53,7 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
   return (
     <div className="space-y-8">
       {/* General Report */}
-      <div className="bg-amber-500/10 p-8 rounded-3xl border border-amber-500/20 animate-slide-up backdrop-blur-sm shadow-lg shadow-amber-900/10">
+      <div className="bg-amber-500/10 p-4 md:p-8 rounded-3xl border border-amber-500/20 animate-slide-up backdrop-blur-sm shadow-lg shadow-amber-900/10">
         <h3 className="font-serif text-2xl font-bold text-amber-200 mb-4 flex items-center gap-3">
            <AlertTriangle className="text-amber-400" />
            {report.objectName}
@@ -65,7 +65,7 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
         {report.components.map((comp, compIndex) => (
           <div 
             key={comp.id} 
-            className="bg-white/5 p-6 rounded-3xl border border-white/10 shadow-lg hover:shadow-purple-500/10 transition-all duration-300 animate-slide-up backdrop-blur-md hover:bg-white/10"
+            className="bg-white/5 p-4 md:p-6 rounded-3xl border border-white/10 shadow-lg hover:shadow-purple-500/10 transition-all duration-300 animate-slide-up backdrop-blur-md hover:bg-white/10"
             style={{ animationDelay: `${(compIndex + 1) * 100}ms` }}
           >
             <div className="flex justify-between items-start mb-6">
