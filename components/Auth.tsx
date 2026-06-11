@@ -197,7 +197,7 @@ const Auth: React.FC<AuthProps> = ({ language, isRecoveryMode = false, onRecover
         ) : checkEmail ? (
           <div className="text-center space-y-6">
             <h2 className="text-3xl font-serif font-bold text-white mb-2 text-center">
-              Реєстрація успішна
+              {t.authRegSuccessTitle}
             </h2>
             <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-6">
               <Mail className="w-12 h-12 text-emerald-400 mx-auto mb-4" />
