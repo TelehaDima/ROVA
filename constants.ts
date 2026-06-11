@@ -144,7 +144,7 @@ export const TRANSLATIONS = {
     authResetEmailSent: "Link do zresetowania hasła został wysłany!",
     authUpdatePassword: "Zaktualizuj hasło",
     authSaveNewPassword: "Zapisz nowe hasło",
-    authBackToLogin: "Powrót do logowania",
+    authBackToLogin: "Wróć do logowania",
     
     // Upload
     uploadTitle: "Nowy Projekt",
@@ -248,8 +248,8 @@ export const TRANSLATIONS = {
     authSendResetLink: "Send reset link",
     authResetEmailSent: "Reset link sent to your email!",
     authUpdatePassword: "Update Password",
-    authSaveNewPassword: "Save new password",
-    authBackToLogin: "Back to login",
+    authSaveNewPassword: "Save New Password",
+    authBackToLogin: "Back to Login",
     
     // Upload
     uploadTitle: "New Project",
