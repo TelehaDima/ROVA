@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { RestorationReport, Language, Damage } from '../types';
 import { TRANSLATIONS } from '../constants';
 import { Plus, X, AlertTriangle, Box, Ruler, Layers } from 'lucide-react';
@@ -11,6 +11,12 @@ interface AnalysisDisplayProps {
 
 const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateReport, language }) => {
   const t = TRANSLATIONS[language];
+  const [activeComponentId, setActiveComponentId] = useState<string | 'ALL'>('ALL');
+
+  // Reset filter when report changes (e.g. new project loaded)
+  useEffect(() => {
+    setActiveComponentId('ALL');
+  }, [report.id]);
 
   const updateDamage = (compIndex: number, damageIndex: number, field: keyof Damage, val: string) => {
     const newComponents = [...report.components];
@@ -69,8 +75,43 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
         </p>
       </div>
 
+
+      {/* Component Tabs */}
+      {report.components.length > 1 && (
+        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+          <button
+            onClick={() => setActiveComponentId('ALL')}
+            className={`px-4 py-2.5 rounded-xl whitespace-nowrap font-medium transition-all text-sm ${
+              activeComponentId === 'ALL'
+                ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
+                : 'bg-white/5 text-slate-300 hover:bg-white/10 border border-white/5'
+            }`}
+          >
+            {language === 'uk' ? 'Всі предмети' : language === 'pl' ? 'Wszystkie elementy' : 'All Items'}
+          </button>
+          {report.components.map((comp) => (
+            <button
+              key={comp.id}
+              onClick={() => setActiveComponentId(comp.id)}
+              className={`px-4 py-2 rounded-xl whitespace-nowrap font-medium transition-all text-sm flex items-center gap-2 ${
+                activeComponentId === comp.id
+                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
+                  : 'bg-white/5 text-slate-300 hover:bg-white/10 border border-white/5'
+              }`}
+            >
+              {comp.sourceImage && (
+                <img src={comp.sourceImage} alt="" className="w-6 h-6 rounded-md object-cover shadow-sm" />
+              )}
+              {comp.name}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="flex flex-col gap-8">
-        {report.components.map((comp, compIndex) => (
+        {report.components
+          .filter(comp => activeComponentId === 'ALL' || comp.id === activeComponentId)
+          .map((comp, compIndex) => (
           <div 
             key={comp.id} 
             className="bg-white/5 p-4 md:p-6 rounded-3xl border border-white/10 shadow-lg hover:shadow-purple-500/10 transition-all duration-300 animate-slide-up backdrop-blur-md hover:bg-white/10"
