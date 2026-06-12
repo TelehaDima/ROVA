@@ -33,7 +33,7 @@ const Auth: React.FC<AuthProps> = ({ language, isRecoveryMode = false, onRecover
 
     try {
       if (isRegister) {
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -41,7 +41,12 @@ const Auth: React.FC<AuthProps> = ({ language, isRecoveryMode = false, onRecover
           }
         });
         if (error) throw error;
-        setCheckEmail(true);
+        
+        // If Supabase returns a session, it means email confirmation is turned off
+        // and they are logged in automatically.
+        if (!data.session) {
+          setCheckEmail(true);
+        }
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
