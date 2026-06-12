@@ -55,7 +55,13 @@ const Auth: React.FC<AuthProps> = ({ language, isRecoveryMode = false, onRecover
         if (error) throw error;
       }
     } catch (error: any) {
-      setErrorMsg(error.message || t.error);
+      let msg = error.message;
+      if (msg === "Invalid login credentials") {
+        msg = (t as any).authInvalidCredentials || msg;
+      } else if (msg === "User already registered") {
+        msg = (t as any).authUserExists || msg;
+      }
+      setErrorMsg(msg || t.error);
     } finally {
       setLoading(false);
     }
