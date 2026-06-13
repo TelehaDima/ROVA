@@ -1,4 +1,5 @@
-import html2pdf from 'html2pdf.js';
+import domtoimage from 'dom-to-image-more';
+import jsPDF from 'jspdf';
 
 export const generatePDF = async (elementId: string, filename: string = 'Restoration_Estimate.pdf'): Promise<boolean> => {
   const element = document.getElementById(elementId);
@@ -18,21 +19,48 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
       element.style.maxWidth = 'none'; 
     }
 
-    const opt = {
-      margin:       10,
-      filename:     filename,
-      image:        { type: 'jpeg' as const, quality: 0.95 },
-      html2canvas:  { 
-        scale: isMobile ? 1.5 : 2, 
-        useCORS: true, 
-        backgroundColor: '#13131A',
-        logging: false
-      },
-      jsPDF:        { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
-    };
+    // Використовуємо dom-to-image-more, який використовує нативний рендер браузера
+    // і повністю підтримує сучасний CSS Tailwind v4 (oklch, oklab, color-mix)
+    const scale = isMobile ? 1.5 : 2;
+    const dataUrl = await domtoimage.toJpeg(element, { 
+      quality: 0.95, 
+      bgcolor: '#13131A',
+      width: element.clientWidth * scale,
+      height: element.clientHeight * scale,
+      style: {
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left'
+      }
+    });
 
-    // Використовуємо html2pdf.js, який сам керує розбиттям на сторінки та збереженням
-    await html2pdf().set(opt).from(element).save();
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    
+    const img = new Image();
+    img.src = dataUrl;
+    await new Promise((resolve) => { img.onload = resolve; });
+
+    const imgWidth = img.width;
+    const imgHeight = img.height;
+    
+    const scaledImgWidth = pdfWidth;
+    const scaledImgHeight = (imgHeight * pdfWidth) / imgWidth;
+    
+    let heightLeft = scaledImgHeight;
+    let position = 0;
+
+    pdf.addImage(dataUrl, 'JPEG', 0, position, scaledImgWidth, scaledImgHeight);
+    heightLeft -= pdfHeight;
+
+    while (heightLeft > 0) {
+      position = heightLeft - scaledImgHeight;
+      pdf.addPage();
+      pdf.addImage(dataUrl, 'JPEG', 0, position, scaledImgWidth, scaledImgHeight);
+      heightLeft -= pdfHeight;
+    }
+    
+    pdf.save(filename);
     
     return true;
   } catch (error: any) {
