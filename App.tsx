@@ -19,6 +19,7 @@ import AnalysisDisplay from './components/AnalysisDisplay';
 import Calculator from './components/Calculator';
 import ChatAssistant from './components/ChatAssistant';
 import ProjectHistory from './components/ProjectHistory';
+import FeedbackModal from './components/FeedbackModal';
 import { RestorationReport, Language } from './types';
 import { analyzeRestorationImage, translateReport } from './services/geminiService';
 import { getProjects, saveProject, deleteProject } from './services/storageService';
@@ -46,6 +47,7 @@ const App: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [isRecovery, setIsRecovery] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   
   // Notification state
   const [notification, setNotification] = useState<{msg: string, type: 'success' | 'error'} | null>(null);
@@ -703,6 +705,25 @@ const App: React.FC = () => {
             <p className="text-xs mt-2 opacity-50">{t.footerDisclaimer}</p>
         </div>
       </footer>
+
+      {/* Floating Feedback Button */}
+      {session && (
+        <button
+          onClick={() => setIsFeedbackOpen(true)}
+          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-full shadow-2xl shadow-purple-900/50 border border-purple-500/30 hover:scale-110 transition-transform flex items-center justify-center group"
+          title={language === 'uk' ? 'Залишити відгук' : language === 'en' ? 'Leave Feedback' : 'Zostaw opinię'}
+        >
+          <MessageSquare size={24} className="group-hover:animate-pulse" />
+        </button>
+      )}
+
+      {/* Feedback Modal */}
+      <FeedbackModal 
+        isOpen={isFeedbackOpen} 
+        onClose={() => setIsFeedbackOpen(false)} 
+        userEmail={session?.user?.email} 
+        language={language}
+      />
     </div>
   );
 };
