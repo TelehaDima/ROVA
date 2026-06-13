@@ -29,16 +29,18 @@ export const analyzeRestorationImage = async (base64Image: string, language: Lan
     const recentProjects = pastProjects.slice(0, 5);
     const pastLearnings = recentProjects.map(p => {
       return `Объект: ${p.objectName}
-Материалы: ${p.components.flatMap(c => c.requiredMaterials.map(m => m.name)).join(', ')}
-Работы: ${p.components.flatMap(c => c.suggestedWorks.map(w => w.description)).join(', ')}
-Повреждения: ${p.components.flatMap(c => c.damages.map(d => d.description)).join(', ')}`;
+Цены на Материалы (за 1 единицу): ${p.components.flatMap(c => c.requiredMaterials.map(m => `${m.name} - ${m.unitPrice} PLN/${m.unit}`)).join('; ')}
+Цены на Работы (за 1 единицу): ${p.components.flatMap(c => c.suggestedWorks.map(w => `${w.description} - ${w.unitPrice} PLN/${w.unit}`)).join('; ')}
+Повреждения: ${p.components.flatMap(c => c.damages.map(d => d.description)).join('; ')}`;
     }).join('\n\n');
     
     memoryContext = `
-    ОПЫТ ПРЕДЫДУЩИХ ПРОЕКТОВ (Используй для обучения и сохранения консистентности):
+    ВАЖНО - ОПЫТ ПРЕДЫДУЩИХ ПРОЕКТОВ (ПОЛЬЗОВАТЕЛЬСКИЙ ПРАЙС-ЛИСТ):
     ${pastLearnings}
     
-    Учитывай эти данные при подборе материалов и работ, чтобы накапливать базу знаний и использовать проверенные методы.
+    ПРАВИЛО ЦЕНООБРАЗОВАНИЯ И ВЫБОРА:
+    1. Если в опыте указана цена (unitPrice) для определенного материала или работы, ВЫ ОБЯЗАНЫ использовать ИМЕННО ЭТУ ЦЕНУ. Это личный прайс-лист пользователя, он в приоритете над рыночными данными.
+    2. Учитывайте эти данные при подборе материалов и технологий, чтобы сохранять консистентность с прошлыми проектами.
     `;
   }
 
