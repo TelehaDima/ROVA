@@ -18,6 +18,12 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
     setActiveComponentId('ALL');
   }, [report.id]);
 
+  const updateComponent = (compIndex: number, field: string, val: string) => {
+    const newComponents = [...report.components];
+    newComponents[compIndex] = { ...newComponents[compIndex], [field]: val };
+    onUpdateReport({ ...report, components: newComponents });
+  };
+
   const updateDamage = (compIndex: number, damageIndex: number, field: keyof Damage, val: string) => {
     const newComponents = [...report.components];
     const newDamages = [...newComponents[compIndex].damages];
@@ -140,13 +146,23 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
             </div>
             
             <div className="flex flex-col sm:flex-row flex-wrap gap-x-8 gap-y-4 text-sm mb-6 pb-6 border-b border-white/5">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto flex-1">
                 <span className="text-slate-400 flex items-center gap-2 shrink-0"><Layers size={14} /> {t.material}:</span>
-                <span className="font-medium text-slate-200 break-words w-full sm:w-auto">{comp.material}</span>
+                <input 
+                  type="text"
+                  value={comp.material}
+                  onChange={(e) => updateComponent(compIndex, 'material', e.target.value)}
+                  className="font-medium text-slate-200 bg-black/20 hover:bg-black/40 focus:bg-black/60 border border-transparent hover:border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-1.5 outline-none transition-all w-full min-w-[200px]"
+                />
               </div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto flex-1">
                 <span className="text-slate-400 flex items-center gap-2 shrink-0"><Ruler size={14} /> {t.dimensions}:</span>
-                <span className="font-medium text-slate-200 break-words w-full sm:w-auto">{comp.dimensions}</span>
+                <input 
+                  type="text"
+                  value={comp.dimensions}
+                  onChange={(e) => updateComponent(compIndex, 'dimensions', e.target.value)}
+                  className="font-medium text-slate-200 bg-black/20 hover:bg-black/40 focus:bg-black/60 border border-transparent hover:border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-1.5 outline-none transition-all w-full min-w-[200px]"
+                />
               </div>
             </div>
               

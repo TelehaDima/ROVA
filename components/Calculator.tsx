@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { RestorationReport, calculateWorkTotal, calculateMaterialTotal, Language } from '../types';
 import { TRANSLATIONS } from '../constants';
-import { Calculator as CalcIcon, Hammer, Package, DollarSign, Percent } from 'lucide-react';
+import { Calculator as CalcIcon, Hammer, Package, DollarSign, Percent, RefreshCw, Sparkles } from 'lucide-react';
+import { recalculateReport } from '../services/geminiService';
 
 interface CalculatorProps {
   report: RestorationReport;
@@ -11,9 +12,25 @@ interface CalculatorProps {
 
 const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, language }) => {
   const t = TRANSLATIONS[language];
+  const [isRecalculating, setIsRecalculating] = useState(false);
+  const [recalcError, setRecalcError] = useState<string | null>(null);
+
+  const handleRecalculate = async () => {
+    setIsRecalculating(true);
+    setRecalcError(null);
+    try {
+      const updated = await recalculateReport(report, language);
+      onUpdateReport(updated);
+    } catch (err) {
+      console.error(err);
+      setRecalcError("Error recalculating. Please try again.");
+    } finally {
+      setIsRecalculating(false);
+    }
+  };
 
   // Helper to update works immutably
-  const updateWork = (componentIndex: number, workIndex: number, field: 'unitPrice' | 'quantity', value: number) => {
+  const updateWork = (componentIndex: number, workIndex: number, field: 'unitPrice' | 'quantity' | 'description' | 'unit', value: number | string) => {
     const newComponents = report.components.map((comp, cIdx) => {
       if (cIdx !== componentIndex) return comp;
       
@@ -29,7 +46,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
   };
 
   // Helper to update materials immutably
-  const updateMaterial = (componentIndex: number, materialIndex: number, field: 'unitPrice' | 'quantity' | 'unit', value: number | string) => {
+  const updateMaterial = (componentIndex: number, materialIndex: number, field: 'unitPrice' | 'quantity' | 'unit' | 'name', value: number | string) => {
     const newComponents = report.components.map((comp, cIdx) => {
       if (cIdx !== componentIndex) return comp;
       
@@ -90,8 +107,17 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
              <h3 className="font-serif font-bold text-xl text-white flex items-center gap-2">
                 <CalcIcon className="text-purple-400" /> {t.calcTitle}
              </h3>
-             <div className="flex items-center gap-3">
-                 <label className="text-sm text-slate-300 font-medium">{t.overheadLabel} (%):</label>
+             <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
+                 <button 
+                   onClick={handleRecalculate}
+                   disabled={isRecalculating}
+                   className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 rounded-xl hover:bg-emerald-500/30 transition-all text-sm font-bold ${isRecalculating ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'}`}
+                 >
+                   {isRecalculating ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} />}
+                   {isRecalculating ? '...' : (t as any).recalculateAI || "AI Recalculate"}
+                 </button>
+                 <div className="flex items-center gap-3">
+                     <label className="text-sm text-slate-300 font-medium whitespace-nowrap">{t.overheadLabel} (%):</label>
                  <input 
                     type="number" 
                     min="0"
@@ -131,7 +157,14 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.suggestedWorks.map((work, wIndex) => (
                                              <tr key={work.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3 text-slate-300">{work.description}</td>
+                                                 <td className="px-4 py-3">
+                                                     <input 
+                                                        type="text" 
+                                                        className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all"
+                                                        value={work.description}
+                                                        onChange={(e) => updateWork(compIndex, wIndex, 'description', e.target.value)}
+                                                     />
+                                                 </td>
                                                  <td className="px-4 py-3 whitespace-nowrap">
                                                      <div className="flex items-center gap-2">
                                                          <input 
@@ -149,7 +182,13 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                               updateWork(compIndex, wIndex, 'quantity', isNaN(val) ? 0 : Math.max(0, val));
                                                             }}
                                                          />
-                                                         <span className="text-slate-500 text-xs">{work.unit}</span>
+                                                         <input 
+                                                            type="text" 
+                                                            className={`w-12 p-1.5 bg-transparent border rounded-lg text-slate-400 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none text-xs transition-colors text-center ${!work.unit.trim() ? 'border-red-500/50 ring-1 ring-red-500/30' : 'border-transparent'}`}
+                                                            value={work.unit}
+                                                            onChange={(e) => updateWork(compIndex, wIndex, 'unit', e.target.value)}
+                                                            title={!work.unit.trim() ? t.error : undefined}
+                                                         />
                                                      </div>
                                                  </td>
                                                  <td className="px-4 py-3">
@@ -197,7 +236,14 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.requiredMaterials.map((mat, mIndex) => (
                                              <tr key={mat.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3 font-medium text-slate-200">{mat.name}</td>
+                                                 <td className="px-4 py-3">
+                                                     <input 
+                                                        type="text" 
+                                                        className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all"
+                                                        value={mat.name}
+                                                        onChange={(e) => updateMaterial(compIndex, mIndex, 'name', e.target.value)}
+                                                     />
+                                                 </td>
                                                  <td className="px-4 py-3">
                                                      <div className="flex gap-2">
                                                          <input 
@@ -217,7 +263,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                          />
                                                          <input 
                                                             type="text" 
-                                                            className={`w-12 p-1.5 bg-black/20 border rounded-lg text-slate-400 focus:border-blue-500 outline-none text-xs transition-colors text-center ${!mat.unit.trim() ? 'border-red-500 ring-1 ring-red-500/50' : 'border-white/10'}`}
+                                                            className={`w-12 p-1.5 bg-transparent border rounded-lg text-slate-400 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none text-xs transition-colors text-center ${!mat.unit.trim() ? 'border-red-500/50 ring-1 ring-red-500/30' : 'border-transparent'}`}
                                                             value={mat.unit}
                                                             onChange={(e) => updateMaterial(compIndex, mIndex, 'unit', e.target.value)}
                                                             title={!mat.unit.trim() ? t.error : undefined}

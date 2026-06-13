@@ -431,3 +431,92 @@ export const chatWithExpert = async (
     };
   }
 };
+
+export const recalculateReport = async (currentReport: RestorationReport, language: Language): Promise<RestorationReport> => {
+  const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY });
+
+  const langInstruction = language === 'pl' 
+    ? "Отвечай строго на ПОЛЬСКОМ языке (Polish)." 
+    : language === 'en'
+    ? "Отвечай строго на АНГЛИЙСКОМ языке (English)."
+    : "Отвечай строго на УКРАИНСКОМ языке (Ukrainian).";
+
+  // Create a clean version of the report without base64 images to save tokens
+  const cleanReport = {
+    ...currentReport,
+    imageBase64: undefined,
+    additionalImages: undefined,
+    components: currentReport.components.map(comp => ({
+      ...comp,
+      sourceImage: undefined
+    }))
+  };
+
+  const prompt = `
+    Вы - профессиональный технолог-реставратор.
+    Пользователь ВРУЧНУЮ изменил некоторые данные в смете (например, увеличил физические размеры объекта, добавил или изменил название материалов или работ).
+    
+    Ваша задача: ПЕРЕСЧИТАТЬ КОЛИЧЕСТВА (quantity) всех материалов и работ в соответствии с новыми размерами и повреждениями.
+    
+    ПРАВИЛА (ОЧЕНЬ ВАЖНО):
+    1. СОХРАНИТЕ все названия работ, материалов и повреждений ровно такими, какими их написал пользователь (даже если там есть опечатки).
+    2. Измените ТОЛЬКО значения 'quantity' пропорционально новым размерам. Например, если размер стал в 2 раза больше, количество материалов должно вырасти.
+    3. 'unitPrice' оставьте как есть (перенесите из текущей сметы).
+    4. 'estimatedTotalPrice' пересчитайте как quantity * unitPrice.
+    5. Структура ответа должна быть ИДЕНТИЧНА оригинальной (сохраните все ID элементов, если они есть).
+    
+    Язык: ${langInstruction}
+    
+    ТЕКУЩАЯ СМЕТА:
+    ${JSON.stringify(cleanReport, null, 2)}
+    
+    Верните ОБНОВЛЕННУЮ смету в формате JSON. Не пишите ничего кроме JSON.
+  `;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: { role: 'user', parts: [{ text: prompt }] },
+      config: { responseMimeType: "application/json" }
+    } as any);
+
+    const text = response.text || "{}";
+    let parsedData: any;
+    try {
+      parsedData = JSON.parse(text);
+    } catch (e) {
+      const cleanedText = text.replace(/```json/g, '').replace(/```/g, '').trim();
+      parsedData = JSON.parse(cleanedText);
+    }
+
+    // Re-inject images and IDs to ensure UI doesn't break
+    const finalReport: RestorationReport = {
+      ...parsedData,
+      id: currentReport.id,
+      imageBase64: currentReport.imageBase64,
+      additionalImages: currentReport.additionalImages,
+      createdAt: currentReport.createdAt,
+      components: parsedData.components.map((comp: any, idx: number) => {
+        const originalComp = currentReport.components[idx] || {};
+        return {
+          ...comp,
+          id: comp.id || originalComp.id || generateUUID(),
+          sourceImage: originalComp.sourceImage,
+          suggestedWorks: (comp.suggestedWorks || []).map((w: any, wIdx: number) => ({
+             ...w,
+             id: w.id || originalComp.suggestedWorks?.[wIdx]?.id || generateUUID()
+          })),
+          requiredMaterials: (comp.requiredMaterials || []).map((m: any, mIdx: number) => ({
+             ...m,
+             id: m.id || originalComp.requiredMaterials?.[mIdx]?.id || generateUUID()
+          }))
+        };
+      })
+    };
+
+    return finalReport;
+  } catch (error) {
+    console.error("Gemini Recalculation Error:", error);
+    throw new Error("Failed to recalculate report.");
+  }
+};

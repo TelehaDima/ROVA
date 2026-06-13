@@ -108,7 +108,8 @@ export const TRANSLATIONS = {
     histOpen: "Відкрити проект",
     
     // Footer
-    footerDisclaimer: "Ціни та обсяги є оціночними та потребують перевірки фахівцем."
+    footerDisclaimer: "Ціни та обсяги є оціночними та потребують перевірки фахівцем.",
+    recalculateAI: "Перерахувати за допомогою ШІ"
   },
   pl: {
     appTitle: "Asystent Konserwatora",
@@ -216,7 +217,8 @@ export const TRANSLATIONS = {
     histOpen: "Otwórz projekt",
 
     // Footer
-    footerDisclaimer: "Ceny i ilości są szacunkowe i wymagają weryfikacji przez specjalistę."
+    footerDisclaimer: "Ceny i ilości są szacunkowe i wymagają weryfikacji przez specjalistę.",
+    recalculateAI: "Przelicz za pomocą AI"
   },
   en: {
     appTitle: "Restorer Assistant",
@@ -324,6 +326,7 @@ export const TRANSLATIONS = {
     histOpen: "Open project",
     
     // Footer
-    footerDisclaimer: "Prices and quantities are estimates and require expert verification."
+    footerDisclaimer: "Prices and quantities are estimates and require expert verification.",
+    recalculateAI: "Recalculate with AI"
   }
 };
