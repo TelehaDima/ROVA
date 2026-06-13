@@ -115,7 +115,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                  <button 
                    onClick={handleRecalculate}
                    disabled={isRecalculating}
-                   className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 rounded-xl hover:bg-emerald-500/30 transition-all text-sm font-bold ${isRecalculating ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'}`}
+                   className={`flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-300 rounded-xl hover:bg-emerald-500/30 transition-all text-sm font-bold no-print ${isRecalculating ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'}`}
                  >
                    {isRecalculating ? <RefreshCw size={16} className="animate-spin" /> : <Sparkles size={16} />}
                    {isRecalculating ? '...' : (t as any).recalculateAI || "AI Recalculate"}

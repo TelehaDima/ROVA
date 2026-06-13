@@ -24,7 +24,7 @@ import FeedbackModal from './components/FeedbackModal';
 import { RestorationReport, Language } from './types';
 import { analyzeRestorationImage, translateReport } from './services/geminiService';
 import { getProjects, saveProject, deleteProject } from './services/storageService';
-import { generatePDF } from './services/pdfService';
+import { useReactToPrint } from 'react-to-print';
 import { TRANSLATIONS } from './constants';
 import Auth from './components/Auth';
 import { supabase } from './services/supabaseClient';
@@ -211,22 +211,27 @@ const App: React.FC = () => {
     }
   };
 
-  const handleExportPDF = async () => {
-    setIsExporting(true);
-    try {
-      const filename = `Estimate_${report?.objectName?.replace(/\s+/g, '_') || 'ROVA'}.pdf`;
-      const success = await generatePDF('printable-report', filename);
-      if (success) {
-        setNotification({ msg: language === 'uk' ? 'PDF збережено!' : 'PDF zapisany!', type: 'success' });
-      } else {
-        setNotification({ msg: language === 'uk' ? 'Помилка генерації PDF' : 'Błąd PDF', type: 'error' });
-      }
-    } catch (err) {
-      console.error(err);
-      setNotification({ msg: t.error || 'Export failed', type: 'error' });
-    } finally {
+  const printableRef = useRef<HTMLDivElement>(null);
+
+  const reactToPrintFn = useReactToPrint({
+    contentRef: printableRef,
+    documentTitle: `Estimate_${report?.objectName?.replace(/\s+/g, '_') || 'ROVA'}`,
+    onAfterPrint: () => {
       setIsExporting(false);
+      setNotification({ msg: language === 'uk' ? 'PDF готовий!' : 'PDF gotowy!', type: 'success' });
+    },
+    onPrintError: () => {
+      setIsExporting(false);
+      setNotification({ msg: language === 'uk' ? 'Помилка PDF' : 'Błąd PDF', type: 'error' });
     }
+  });
+
+  const handleExportPDF = () => {
+    setIsExporting(true);
+    // Timeout to allow UI to show loading state if needed
+    setTimeout(() => {
+      reactToPrintFn();
+    }, 100);
   };
 
   const handleLoadProject = (project: RestorationReport) => {
@@ -517,6 +522,7 @@ const App: React.FC = () => {
               exit={{ opacity: 0 }}
               className="grid lg:grid-cols-12 gap-8"
               id="printable-report"
+              ref={printableRef}
             >
               <div className="lg:col-span-4 space-y-6 min-w-0">
                 <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl">
@@ -564,7 +570,7 @@ const App: React.FC = () => {
                           onChange={handleAdditionalPhotoSelected}
                         />
                       )}
-                      <div className={`grid gap-3 mt-4 ${isMobile ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                      <div className={`grid gap-3 mt-4 ${isMobile ? 'grid-cols-2' : 'grid-cols-1'} no-print`}>
                         {isMobile && (
                           <button 
                             onClick={() => additionalCameraRef.current?.click()}
@@ -598,7 +604,7 @@ const App: React.FC = () => {
                 </div>
                 
                 {report && (
-                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 no-print">
                      <button 
                       onClick={handleSave}
                       className="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 font-bold text-lg transform active:scale-95"
@@ -742,7 +748,7 @@ const App: React.FC = () => {
       {session && (
         <button
           onClick={() => setIsFeedbackOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-3 rounded-full shadow-2xl shadow-purple-900/50 border border-purple-500/30 hover:scale-105 transition-all flex items-center justify-center gap-2 group"
+          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-3 rounded-full shadow-2xl shadow-purple-900/50 border border-purple-500/30 hover:scale-105 transition-all flex items-center justify-center gap-2 group no-print"
           title={language === 'uk' ? 'Залишити відгук' : language === 'en' ? 'Leave Feedback' : 'Zostaw opinię'}
         >
           <MessageSquare size={20} className="group-hover:animate-pulse" />

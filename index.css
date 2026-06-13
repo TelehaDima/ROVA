@@ -9,3 +9,34 @@ body {
   background-color: #0f172a; /* Dark slate background */
   color: #f8fafc;
 }
+
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Make all text black for readable printing */
+  * {
+    color: #000000 !important;
+  }
+
+  /* Force background colors to print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Prevent elements from breaking across pages awkwardly */
+  table, img, .rounded-2xl, .bg-white\/5 {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Hide UI elements that shouldn't be printed */
+  .no-print {
+    display: none !important;
+  }
+}
