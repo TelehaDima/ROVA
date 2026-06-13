@@ -80,29 +80,29 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
       
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 animate-slide-up backdrop-blur-md hover:bg-white/10 transition-colors flex flex-col justify-center min-w-0">
+        <div className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 animate-slide-up backdrop-blur-md hover:bg-white/10 transition-colors flex flex-col justify-center">
           <p className="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
              <Hammer size={14} className="shrink-0" /> {t.summaryWorks}
           </p>
-          <p className="text-xl lg:text-2xl font-bold text-white truncate" title={formatCurrency(totalWorksCost)}>{formatCurrency(totalWorksCost)}</p>
+          <p className="text-lg xl:text-xl font-bold text-white break-words">{formatCurrency(totalWorksCost)}</p>
         </div>
-        <div className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 animate-slide-up delay-75 backdrop-blur-md hover:bg-white/10 transition-colors flex flex-col justify-center min-w-0">
+        <div className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 animate-slide-up delay-75 backdrop-blur-md hover:bg-white/10 transition-colors flex flex-col justify-center">
           <p className="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
              <Package size={14} className="shrink-0" /> {t.summaryMaterials}
           </p>
-          <p className="text-xl lg:text-2xl font-bold text-white truncate" title={formatCurrency(totalMaterialsCost)}>{formatCurrency(totalMaterialsCost)}</p>
+          <p className="text-lg xl:text-xl font-bold text-white break-words">{formatCurrency(totalMaterialsCost)}</p>
         </div>
-        <div className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 animate-slide-up delay-150 backdrop-blur-md hover:bg-white/10 transition-colors flex flex-col justify-center min-w-0">
+        <div className="bg-white/5 p-6 rounded-2xl shadow-lg border border-white/10 animate-slide-up delay-150 backdrop-blur-md hover:bg-white/10 transition-colors flex flex-col justify-center">
           <p className="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
              <Percent size={14} className="shrink-0" /> {t.summaryOverhead} ({report.overheadPercentage}%)
           </p>
-          <p className="text-xl lg:text-2xl font-bold text-amber-400 truncate" title={formatCurrency(overheadCost)}>{formatCurrency(overheadCost)}</p>
+          <p className="text-lg xl:text-xl font-bold text-amber-400 break-words">{formatCurrency(overheadCost)}</p>
         </div>
-        <div className="bg-gradient-to-br from-purple-600 to-indigo-700 p-6 rounded-2xl shadow-lg shadow-purple-900/40 text-white animate-slide-up delay-200 hover:scale-105 transition-transform border border-white/10 flex flex-col justify-center min-w-0">
+        <div className="bg-gradient-to-br from-purple-600 to-indigo-700 p-6 rounded-2xl shadow-lg shadow-purple-900/40 text-white animate-slide-up delay-200 hover:scale-105 transition-transform border border-white/10 flex flex-col justify-center">
           <p className="text-xs text-purple-200 uppercase font-bold tracking-wider mb-2 flex items-center gap-2">
              <DollarSign size={14} className="shrink-0" /> {t.summaryTotal}
           </p>
-          <p className="text-2xl lg:text-3xl font-bold truncate" title={formatCurrency(grandTotal)}>{formatCurrency(grandTotal)}</p>
+          <p className="text-xl xl:text-2xl font-bold break-words">{formatCurrency(grandTotal)}</p>
         </div>
       </div>
 
