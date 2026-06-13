@@ -8,30 +8,24 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
     return false;
   }
 
+  const originalStyle = element.style.cssText;
+  const originalWidth = element.style.width;
+  const isMobile = window.innerWidth < 768;
+
   try {
-    // Встановлюємо тимчасові стилі для кращого рендерингу (наприклад, ховаємо скролли)
-    const originalStyle = element.style.cssText;
+    // Встановлюємо тимчасові стилі для кращого рендерингу
     element.style.borderRadius = '0';
-    
-    // Якщо на мобільному контент занадто вузький, ми примусово задаємо ширину для нормального вигляду в PDF
-    const originalWidth = element.style.width;
-    const isMobile = window.innerWidth < 768;
     if (isMobile) {
       element.style.width = '800px'; 
+      element.style.maxWidth = 'none'; // Щоб Tailwind не стискав блок
     }
 
     const canvas = await html2canvas(element, {
-      scale: 2, // Висока роздільна здатність
-      useCORS: true, // Дозволити завантаження зображень з інших доменів
+      scale: isMobile ? 1.5 : 2, // Менший скейл на мобільному, щоб уникнути помилок пам'яті (Out of Memory)
+      useCORS: true, 
       logging: false,
-      backgroundColor: '#13131A', // Темний фон під колір додатку
+      backgroundColor: '#13131A', 
     });
-
-    // Відновлюємо стилі
-    element.style.cssText = originalStyle;
-    if (isMobile) {
-      element.style.width = originalWidth;
-    }
 
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
     
@@ -67,5 +61,12 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
   } catch (error) {
     console.error('Error generating PDF:', error);
     return false;
+  } finally {
+    // Гарантовано відновлюємо стилі, навіть якщо сталася помилка
+    element.style.cssText = originalStyle;
+    if (isMobile) {
+      element.style.width = originalWidth;
+      element.style.maxWidth = '';
+    }
   }
 };
