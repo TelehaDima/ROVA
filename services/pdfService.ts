@@ -19,6 +19,27 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
       element.style.maxWidth = 'none'; 
     }
 
+    // Приховуємо зайві кнопки (.no-print) та розгортаємо скролли (.overflow-y-auto)
+    const noPrintElements = element.querySelectorAll('.no-print');
+    const originalDisplays: string[] = [];
+    noPrintElements.forEach((el: any) => {
+      originalDisplays.push(el.style.display);
+      el.style.display = 'none';
+    });
+
+    const scrollableAreas = element.querySelectorAll('.overflow-y-auto');
+    const originalMaxHeights: string[] = [];
+    const originalOverflows: string[] = [];
+    scrollableAreas.forEach((el: any) => {
+      originalMaxHeights.push(el.style.maxHeight);
+      originalOverflows.push(el.style.overflow);
+      el.style.maxHeight = 'none';
+      el.style.overflow = 'visible';
+    });
+
+    // Чекаємо мить, щоб браузер перерахував макет без скроллів і кнопок
+    await new Promise(r => setTimeout(r, 100));
+
     // Використовуємо dom-to-image-more, який використовує нативний рендер браузера
     // і повністю підтримує сучасний CSS Tailwind v4 (oklch, oklab, color-mix)
     const scale = isMobile ? 1.5 : 2;
@@ -31,6 +52,15 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
         transform: `scale(${scale})`,
         transformOrigin: 'top left'
       }
+    });
+
+    // Відновлюємо DOM одразу після створення скріншоту
+    noPrintElements.forEach((el: any, i) => {
+      el.style.display = originalDisplays[i];
+    });
+    scrollableAreas.forEach((el: any, i) => {
+      el.style.maxHeight = originalMaxHeights[i];
+      el.style.overflow = originalOverflows[i];
     });
 
     const pdf = new jsPDF('p', 'mm', 'a4');
