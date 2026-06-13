@@ -18,6 +18,15 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
     setActiveComponentId('ALL');
   }, [report.id]);
 
+  const parseDimensions = (dimString: string) => {
+    if (!dimString) return { w: '', h: '' };
+    const nums = dimString.match(/(\d+[\.,]?\d*)/g);
+    return {
+      w: nums && nums.length > 0 ? nums[0] : '',
+      h: nums && nums.length > 1 ? nums[1] : ''
+    };
+  };
+
   const updateComponent = (compIndex: number, field: string, val: string) => {
     const newComponents = [...report.components];
     newComponents[compIndex] = { ...newComponents[compIndex], [field]: val };
@@ -157,12 +166,24 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 w-full sm:w-auto flex-1">
                 <span className="text-slate-400 flex items-center gap-2 shrink-0"><Ruler size={14} /> {t.dimensions}:</span>
-                <input 
-                  type="text"
-                  value={comp.dimensions}
-                  onChange={(e) => updateComponent(compIndex, 'dimensions', e.target.value)}
-                  className="font-medium text-slate-200 bg-black/20 hover:bg-black/40 focus:bg-black/60 border border-transparent hover:border-white/10 focus:border-purple-500/50 rounded-lg px-3 py-1.5 outline-none transition-all w-full min-w-[200px]"
-                />
+                <div className="flex items-center gap-2 w-full">
+                  <input 
+                    type="number"
+                    value={parseDimensions(comp.dimensions).w}
+                    onChange={(e) => updateComponent(compIndex, 'dimensions', `${e.target.value} x ${parseDimensions(comp.dimensions).h} cm`)}
+                    placeholder="Ширина"
+                    className="font-medium text-center text-slate-200 bg-black/20 hover:bg-black/40 focus:bg-black/60 border border-transparent hover:border-white/10 focus:border-purple-500/50 rounded-lg px-2 py-1.5 outline-none transition-all w-full min-w-[80px]"
+                  />
+                  <span className="text-slate-500 text-sm">x</span>
+                  <input 
+                    type="number"
+                    value={parseDimensions(comp.dimensions).h}
+                    onChange={(e) => updateComponent(compIndex, 'dimensions', `${parseDimensions(comp.dimensions).w} x ${e.target.value} cm`)}
+                    placeholder="Висота"
+                    className="font-medium text-center text-slate-200 bg-black/20 hover:bg-black/40 focus:bg-black/60 border border-transparent hover:border-white/10 focus:border-purple-500/50 rounded-lg px-2 py-1.5 outline-none transition-all w-full min-w-[80px]"
+                  />
+                  <span className="text-slate-400 text-sm shrink-0">cm</span>
+                </div>
               </div>
             </div>
               
