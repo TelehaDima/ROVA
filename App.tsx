@@ -24,7 +24,7 @@ import FeedbackModal from './components/FeedbackModal';
 import { RestorationReport, Language } from './types';
 import { analyzeRestorationImage, translateReport } from './services/geminiService';
 import { getProjects, saveProject, deleteProject } from './services/storageService';
-import { useReactToPrint } from 'react-to-print';
+import { generatePDF } from './services/pdfService';
 import { TRANSLATIONS } from './constants';
 import Auth from './components/Auth';
 import { supabase } from './services/supabaseClient';
@@ -211,27 +211,24 @@ const App: React.FC = () => {
     }
   };
 
-  const printableRef = useRef<HTMLDivElement>(null);
-
-  const reactToPrintFn = useReactToPrint({
-    contentRef: printableRef,
-    documentTitle: `Estimate_${report?.objectName?.replace(/\s+/g, '_') || 'ROVA'}`,
-    onAfterPrint: () => {
-      setIsExporting(false);
-      setNotification({ msg: language === 'uk' ? 'PDF готовий!' : 'PDF gotowy!', type: 'success' });
-    },
-    onPrintError: () => {
-      setIsExporting(false);
-      setNotification({ msg: language === 'uk' ? 'Помилка PDF' : 'Błąd PDF', type: 'error' });
-    }
-  });
-
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     setIsExporting(true);
-    // Timeout to allow UI to show loading state if needed
-    setTimeout(() => {
-      reactToPrintFn();
-    }, 100);
+    try {
+      const filename = `Estimate_${report?.objectName?.replace(/\s+/g, '_') || 'ROVA'}.pdf`;
+      // Small timeout to allow UI to settle
+      await new Promise(resolve => setTimeout(resolve, 100));
+      const success = await generatePDF('printable-report', filename);
+      if (success) {
+        setNotification({ msg: language === 'uk' ? 'PDF збережено!' : 'PDF zapisany!', type: 'success' });
+      } else {
+        setNotification({ msg: language === 'uk' ? 'Помилка генерації PDF' : 'Błąd PDF', type: 'error' });
+      }
+    } catch (err) {
+      console.error(err);
+      setNotification({ msg: t.error || 'Export failed', type: 'error' });
+    } finally {
+      setIsExporting(false);
+    }
   };
 
   const handleLoadProject = (project: RestorationReport) => {
@@ -522,13 +519,12 @@ const App: React.FC = () => {
               exit={{ opacity: 0 }}
               className="grid lg:grid-cols-12 gap-8"
               id="printable-report"
-              ref={printableRef}
             >
               <div className="lg:col-span-4 space-y-6 min-w-0">
                 <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl">
                   <h3 className="font-bold text-slate-300 mb-4 text-sm uppercase tracking-wider">Original Photo</h3>
                   <div className="relative rounded-2xl overflow-hidden bg-black/40 aspect-[3/4] group shadow-inner border border-white/5 mb-4">
-                     {image && <img src={image} alt="Restoration Object" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />}
+                     {image && <img src={image} crossOrigin="anonymous" alt="Restoration Object" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />}
                      {loading && (
                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm z-10">
                           <div className="text-center">
@@ -544,7 +540,7 @@ const App: React.FC = () => {
                     <div className="grid grid-cols-4 gap-2 mb-4">
                       {report.additionalImages.map((img, idx) => (
                         <div key={idx} className="relative rounded-lg overflow-hidden aspect-square bg-black/40 border border-white/10">
-                          <img src={img} alt={`Additional ${idx}`} className="w-full h-full object-cover" />
+                          <img src={img} crossOrigin="anonymous" alt={`Additional ${idx}`} className="w-full h-full object-cover" />
                         </div>
                       ))}
                     </div>

@@ -21,7 +21,7 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
     }
 
     const canvas = await html2canvas(element, {
-      scale: isMobile ? 1.5 : 2, // Менший скейл на мобільному, щоб уникнути помилок пам'яті (Out of Memory)
+      scale: isMobile ? 1 : 2, // Менший скейл на мобільному, щоб уникнути помилок пам'яті (Out of Memory)
       useCORS: true, 
       logging: false,
       backgroundColor: '#13131A', 
@@ -58,8 +58,9 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
 
     pdf.save(filename);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error generating PDF:', error);
+    alert('Помилка при створенні PDF: ' + (error.message || String(error)));
     return false;
   } finally {
     // Гарантовано відновлюємо стилі, навіть якщо сталася помилка
