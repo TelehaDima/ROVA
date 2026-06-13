@@ -12,7 +12,8 @@ import {
   LayoutDashboard,
   Languages,
   ArrowLeft,
-  LogOut
+  LogOut,
+  Download
 } from 'lucide-react';
 import ImageUploader from './components/ImageUploader';
 import AnalysisDisplay from './components/AnalysisDisplay';
@@ -23,6 +24,7 @@ import FeedbackModal from './components/FeedbackModal';
 import { RestorationReport, Language } from './types';
 import { analyzeRestorationImage, translateReport } from './services/geminiService';
 import { getProjects, saveProject, deleteProject } from './services/storageService';
+import { generatePDF } from './services/pdfService';
 import { TRANSLATIONS } from './constants';
 import Auth from './components/Auth';
 import { supabase } from './services/supabaseClient';
@@ -48,6 +50,7 @@ const App: React.FC = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [isRecovery, setIsRecovery] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   
   // Notification state
   const [notification, setNotification] = useState<{msg: string, type: 'success' | 'error'} | null>(null);
@@ -205,6 +208,24 @@ const App: React.FC = () => {
       } else {
         setNotification({ msg: result.error || t.error, type: 'error' });
       }
+    }
+  };
+
+  const handleExportPDF = async () => {
+    setIsExporting(true);
+    try {
+      const filename = `Estimate_${report?.objectName?.replace(/\s+/g, '_') || 'ROVA'}.pdf`;
+      const success = await generatePDF('printable-report', filename);
+      if (success) {
+        setNotification({ msg: language === 'uk' ? 'PDF збережено!' : 'PDF zapisany!', type: 'success' });
+      } else {
+        setNotification({ msg: language === 'uk' ? 'Помилка генерації PDF' : 'Błąd PDF', type: 'error' });
+      }
+    } catch (err) {
+      console.error(err);
+      setNotification({ msg: t.error || 'Export failed', type: 'error' });
+    } finally {
+      setIsExporting(false);
     }
   };
 
@@ -495,6 +516,7 @@ const App: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               className="grid lg:grid-cols-12 gap-8"
+              id="printable-report"
             >
               <div className="lg:col-span-4 space-y-6 min-w-0">
                 <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-4 md:p-6 shadow-2xl">
@@ -576,13 +598,23 @@ const App: React.FC = () => {
                 </div>
                 
                 {report && (
-                   <button 
-                    onClick={handleSave}
-                    className="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 font-bold text-lg transform active:scale-95"
-                   >
-                     <Save size={24} />
-                     {t.save}
-                   </button>
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                     <button 
+                      onClick={handleSave}
+                      className="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 font-bold text-lg transform active:scale-95"
+                     >
+                       <Save size={24} />
+                       {t.save}
+                     </button>
+                     <button 
+                      onClick={handleExportPDF}
+                      disabled={isExporting}
+                      className={`w-full py-4 px-6 bg-gradient-to-r from-red-500 to-orange-600 text-white rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-red-500/20 flex items-center justify-center gap-3 font-bold text-lg transform active:scale-95 ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                     >
+                       {isExporting ? <RefreshCw className="animate-spin" size={24} /> : <Download size={24} />}
+                       {language === 'uk' ? 'PDF' : language === 'en' ? 'PDF' : 'PDF'}
+                     </button>
+                   </div>
                 )}
 
                 {/* Status/Error Messages */}
