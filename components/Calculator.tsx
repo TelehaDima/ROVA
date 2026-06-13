@@ -126,6 +126,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                     onChange={(e) => handleOverheadChange(parseFloat(e.target.value) || 0)}
                     className="w-20 p-2 bg-black/20 border border-white/10 rounded-lg text-center text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all font-mono"
                  />
+                 </div>
              </div>
          </div>
 
