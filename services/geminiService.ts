@@ -497,7 +497,7 @@ export const recalculateReport = async (currentReport: RestorationReport, langua
       additionalImages: currentReport.additionalImages,
       createdAt: currentReport.createdAt,
       components: parsedData.components.map((comp: any, idx: number) => {
-        const originalComp = currentReport.components[idx] || {};
+        const originalComp: any = currentReport.components[idx] || {};
         return {
           ...comp,
           id: comp.id || originalComp.id || generateUUID(),
