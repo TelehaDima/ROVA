@@ -214,7 +214,9 @@ const App: React.FC = () => {
   const handleExportPDF = async () => {
     setIsExporting(true);
     try {
-      const filename = `Estimate_${report?.objectName?.replace(/\s+/g, '_') || 'ROVA'}.pdf`;
+      const suffix = language === 'uk' ? 'Кошторис_та_аналіз' : language === 'en' ? 'Estimate_and_analysis' : 'Kosztorys_i_analiza';
+      const cleanName = report?.objectName?.replace(/\s+/g, '_') || 'Projekt';
+      const filename = `${cleanName}_${suffix}.pdf`;
       // Small timeout to allow UI to settle
       await new Promise(resolve => setTimeout(resolve, 100));
       const success = await generatePDF('printable-report', filename);
