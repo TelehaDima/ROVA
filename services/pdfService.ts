@@ -1,5 +1,4 @@
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import html2pdf from 'html2pdf.js';
 
 export const generatePDF = async (elementId: string, filename: string = 'Restoration_Estimate.pdf'): Promise<boolean> => {
   const element = document.getElementById(elementId);
@@ -8,62 +7,39 @@ export const generatePDF = async (elementId: string, filename: string = 'Restora
     return false;
   }
 
+  const isMobile = window.innerWidth < 768;
   const originalStyle = element.style.cssText;
   const originalWidth = element.style.width;
-  const isMobile = window.innerWidth < 768;
 
   try {
-    // Встановлюємо тимчасові стилі для кращого рендерингу
     element.style.borderRadius = '0';
     if (isMobile) {
       element.style.width = '800px'; 
-      element.style.maxWidth = 'none'; // Щоб Tailwind не стискав блок
+      element.style.maxWidth = 'none'; 
     }
 
-    const canvas = await html2canvas(element, {
-      scale: isMobile ? 1 : 2, // Менший скейл на мобільному, щоб уникнути помилок пам'яті (Out of Memory)
-      useCORS: true, 
-      logging: false,
-      backgroundColor: '#13131A', 
-    });
+    const opt = {
+      margin:       10,
+      filename:     filename,
+      image:        { type: 'jpeg' as const, quality: 0.95 },
+      html2canvas:  { 
+        scale: isMobile ? 1.5 : 2, 
+        useCORS: true, 
+        backgroundColor: '#13131A',
+        logging: false
+      },
+      jsPDF:        { unit: 'mm' as const, format: 'a4' as const, orientation: 'portrait' as const }
+    };
 
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    // Використовуємо html2pdf.js, який сам керує розбиттям на сторінки та збереженням
+    await html2pdf().set(opt).from(element).save();
     
-    // Формат A4
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-    
-    // Пропорційно масштабуємо
-    const imgWidth = canvas.width;
-    const imgHeight = canvas.height;
-    
-    const scaledImgWidth = pdfWidth;
-    const scaledImgHeight = (imgHeight * pdfWidth) / imgWidth;
-    
-    let heightLeft = scaledImgHeight;
-    let position = 0;
-
-    // Перша сторінка
-    pdf.addImage(imgData, 'JPEG', 0, position, scaledImgWidth, scaledImgHeight);
-    heightLeft -= pdfHeight;
-
-    // Додаємо наступні сторінки, якщо звіт дуже довгий
-    while (heightLeft >= 0) {
-      position = heightLeft - scaledImgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'JPEG', 0, position, scaledImgWidth, scaledImgHeight);
-      heightLeft -= pdfHeight;
-    }
-
-    pdf.save(filename);
     return true;
   } catch (error: any) {
     console.error('Error generating PDF:', error);
-    alert('Помилка при створенні PDF: ' + (error.message || String(error)));
+    alert('Помилка генератора: ' + (error.message || String(error)));
     return false;
   } finally {
-    // Гарантовано відновлюємо стилі, навіть якщо сталася помилка
     element.style.cssText = originalStyle;
     if (isMobile) {
       element.style.width = originalWidth;
