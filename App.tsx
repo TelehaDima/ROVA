@@ -710,10 +710,13 @@ const App: React.FC = () => {
       {session && (
         <button
           onClick={() => setIsFeedbackOpen(true)}
-          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-4 rounded-full shadow-2xl shadow-purple-900/50 border border-purple-500/30 hover:scale-110 transition-transform flex items-center justify-center group"
+          className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-5 py-3 rounded-full shadow-2xl shadow-purple-900/50 border border-purple-500/30 hover:scale-105 transition-all flex items-center justify-center gap-2 group"
           title={language === 'uk' ? 'Залишити відгук' : language === 'en' ? 'Leave Feedback' : 'Zostaw opinię'}
         >
-          <MessageSquare size={24} className="group-hover:animate-pulse" />
+          <MessageSquare size={20} className="group-hover:animate-pulse" />
+          <span className="font-medium text-sm">
+            {language === 'uk' ? 'Залишити відгук' : language === 'en' ? 'Feedback' : 'Zostaw opinię'}
+          </span>
         </button>
       )}
 
