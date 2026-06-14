@@ -168,7 +168,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
       </div>
 
       <div className="bg-white/5 rounded-3xl shadow-2xl border border-white/10 overflow-hidden animate-slide-up delay-300 backdrop-blur-xl">
-         <div className="p-6 bg-white/5 border-b border-white/10 flex justify-between items-center">
+         <div className="p-6 bg-white/5 border-b border-white/10 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
              <div className="flex flex-col">
                  <h3 className="font-serif font-bold text-xl text-white flex items-center gap-2">
                     <CalcIcon className="text-purple-400" /> {t.calcTitle}
@@ -177,7 +177,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                    * {language === 'uk' ? 'Ціни згенеровані ШІ на основі середніх ринкових даних і можуть бути відредаговані вручну.' : language === 'pl' ? 'Ceny są generowane przez AI na podstawie średnich danych rynkowych i mogą być edytowane ręcznie.' : 'Prices are AI-generated based on market averages and can be edited manually.'}
                  </p>
              </div>
-             <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
+             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full lg:w-auto">
                  <button 
                    onClick={handleRecalculate}
                    disabled={isRecalculating}
@@ -219,7 +219,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                  <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium min-w-[250px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[250px] sm:sticky sm:left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableQty}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
@@ -228,7 +228,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.suggestedWorks.map((work, wIndex) => (
                                              <tr key={work.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3 sticky left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
+                                                 <td className="px-4 py-3 sm:sticky sm:left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
                                                      <AutoResizeTextarea 
                                                         className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all"
                                                         value={work.description}
@@ -299,7 +299,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                  <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium min-w-[250px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[250px] sm:sticky sm:left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableRate}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
@@ -308,7 +308,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.requiredMaterials.map((mat, mIndex) => (
                                              <tr key={mat.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3 sticky left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
+                                                 <td className="px-4 py-3 sm:sticky sm:left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
                                                      <AutoResizeTextarea 
                                                         className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all"
                                                         value={mat.name}
