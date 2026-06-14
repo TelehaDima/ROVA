@@ -204,7 +204,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                             onKeyDown={(e) => {
                                                               if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                             }}
-                                                            className="w-20 p-1.5 bg-black/20 border border-white/10 rounded-lg text-right text-white focus:border-purple-500 outline-none text-xs transition-colors"
+                                                            className="w-20 p-1.5 bg-black/20 border border-white/10 rounded-lg text-center text-white focus:border-purple-500 outline-none text-xs transition-colors"
                                                             value={work.quantity === 0 ? '' : work.quantity}
                                                             placeholder="0"
                                                             onChange={(e) => {
@@ -229,7 +229,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                         onKeyDown={(e) => {
                                                           if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                         }}
-                                                        className="w-full p-1.5 bg-black/20 border border-white/10 rounded-lg text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all text-sm"
+                                                        className="w-full p-1.5 bg-black/20 border border-white/10 rounded-lg text-center text-white focus:border-purple-500 focus:ring-1 focus:ring-purple-500 outline-none transition-all text-sm"
                                                         value={work.unitPrice === 0 ? '' : work.unitPrice}
                                                         placeholder="0"
                                                         onChange={(e) => {
@@ -282,7 +282,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                             onKeyDown={(e) => {
                                                               if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                             }}
-                                                            className="w-16 p-1.5 bg-black/20 border border-white/10 rounded-lg text-right text-white focus:border-blue-500 outline-none text-xs transition-colors"
+                                                            className="w-20 p-1.5 bg-black/20 border border-white/10 rounded-lg text-center text-white focus:border-blue-500 outline-none text-xs transition-colors"
                                                             value={mat.quantity === 0 ? '' : mat.quantity}
                                                             placeholder="0"
                                                             onChange={(e) => {
@@ -307,7 +307,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                         onKeyDown={(e) => {
                                                           if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                         }}
-                                                        className="w-full p-1.5 bg-black/20 border border-white/10 rounded-lg text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all text-sm"
+                                                        className="w-full p-1.5 bg-black/20 border border-white/10 rounded-lg text-center text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all text-sm"
                                                         value={mat.unitPrice === 0 ? '' : mat.unitPrice}
                                                         placeholder="0"
                                                         onChange={(e) => {
