@@ -209,20 +209,20 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                          <span className="ml-auto text-sm font-normal text-slate-400 font-mono bg-white/5 px-3 py-1 rounded-lg border border-white/5">{t.dimensions}: {comp.dimensions}</span>
                      </h4>
 
-                     <div className="grid xl:grid-cols-2 gap-10">
+                     <div className="grid 2xl:grid-cols-2 gap-10">
                          {/* Works Table */}
                          <div className="min-w-0">
                              <h5 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Hammer size={12} /> {t.summaryWorks}
                              </h5>
-                             <DualScrollTableWrapper minWidth="850px">
-                                 <table className="w-full text-sm text-left table-fixed">
+                             <DualScrollTableWrapper minWidth="750px">
+                                 <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium w-[350px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
-                                             <th className="px-4 py-3 font-medium w-[220px] text-center">{t.tableQty}</th>
-                                             <th className="px-4 py-3 w-[140px] font-medium text-center">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 w-[140px] text-center font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[250px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
+                                             <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableQty}</th>
+                                             <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
@@ -295,14 +295,14 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                              <h5 className="text-xs font-bold text-blue-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Package size={12} /> {t.summaryMaterials}
                              </h5>
-                             <DualScrollTableWrapper minWidth="850px">
-                                 <table className="w-full text-sm text-left table-fixed">
+                             <DualScrollTableWrapper minWidth="750px">
+                                 <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium w-[350px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
-                                             <th className="px-4 py-3 font-medium w-[220px] text-center">{t.tableRate}</th>
-                                             <th className="px-4 py-3 w-[140px] font-medium text-center">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 w-[140px] text-center font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[250px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
+                                             <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableRate}</th>
+                                             <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
