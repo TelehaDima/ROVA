@@ -215,14 +215,14 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                              <h5 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Hammer size={12} /> {t.summaryWorks}
                              </h5>
-                             <DualScrollTableWrapper minWidth="950px">
+                             <DualScrollTableWrapper minWidth="850px">
                                  <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium w-72 min-w-[280px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
-                                             <th className="px-4 py-3 font-medium w-72 text-center">{t.tableQty}</th>
-                                             <th className="px-4 py-3 w-48 font-medium text-center">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 w-48 text-center font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[350px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
+                                             <th className="px-4 py-3 font-medium w-[220px] text-center">{t.tableQty}</th>
+                                             <th className="px-4 py-3 w-[140px] font-medium text-center">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-[140px] text-center font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
@@ -245,7 +245,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                                 onKeyDown={(e) => {
                                                                   if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                                 }}
-                                                                className="w-28 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
+                                                                className="w-24 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
                                                                 value={work.quantity === 0 ? '' : work.quantity}
                                                                 placeholder="0"
                                                                 onChange={(e) => {
@@ -255,7 +255,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                              />
                                                              <input 
                                                                 type="text" 
-                                                                className="w-16 p-1.5 pl-0 bg-transparent text-left text-purple-300/70 outline-none text-xs font-medium"
+                                                                className="w-14 p-1.5 pl-0 bg-transparent text-left text-purple-300/70 outline-none text-xs font-medium"
                                                                 value={work.unit}
                                                                 onChange={(e) => updateWork(compIndex, wIndex, 'unit', e.target.value)}
                                                                 title={!work.unit.trim() ? t.error : undefined}
@@ -295,14 +295,14 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                              <h5 className="text-xs font-bold text-blue-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Package size={12} /> {t.summaryMaterials}
                              </h5>
-                             <DualScrollTableWrapper minWidth="950px">
+                             <DualScrollTableWrapper minWidth="850px">
                                  <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium w-72 min-w-[280px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
-                                             <th className="px-4 py-3 font-medium w-72 text-center">{t.tableRate}</th>
-                                             <th className="px-4 py-3 w-48 font-medium text-center">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 w-48 text-center font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[350px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
+                                             <th className="px-4 py-3 font-medium w-[220px] text-center">{t.tableRate}</th>
+                                             <th className="px-4 py-3 w-[140px] font-medium text-center">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-[140px] text-center font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
@@ -325,7 +325,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                                 onKeyDown={(e) => {
                                                                   if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                                 }}
-                                                                className="w-28 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
+                                                                className="w-24 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
                                                                 value={mat.quantity === 0 ? '' : mat.quantity}
                                                                 placeholder="0"
                                                                 onChange={(e) => {
@@ -335,7 +335,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                              />
                                                              <input 
                                                                 type="text" 
-                                                                className="w-16 p-1.5 pl-0 bg-transparent text-left text-blue-300/70 outline-none text-xs font-medium"
+                                                                className="w-14 p-1.5 pl-0 bg-transparent text-left text-blue-300/70 outline-none text-xs font-medium"
                                                                 value={mat.unit}
                                                                 onChange={(e) => updateMaterial(compIndex, mIndex, 'unit', e.target.value)}
                                                                 title={!mat.unit.trim() ? t.error : undefined}
