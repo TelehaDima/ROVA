@@ -236,29 +236,31 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3 whitespace-nowrap">
-                                                     <div className="flex items-center justify-center gap-2">
-                                                         <input 
-                                                            type="number" 
-                                                            min="0"
-                                                            step="0.01"
-                                                            onKeyDown={(e) => {
-                                                              if (e.key === '-' || e.key === 'e') e.preventDefault();
-                                                            }}
-                                                            className="w-20 p-1.5 bg-black/20 border border-white/10 rounded-lg text-center text-white focus:border-purple-500 outline-none text-xs transition-colors"
-                                                            value={work.quantity === 0 ? '' : work.quantity}
-                                                            placeholder="0"
-                                                            onChange={(e) => {
-                                                              const val = parseFloat(e.target.value);
-                                                              updateWork(compIndex, wIndex, 'quantity', isNaN(val) ? 0 : Math.max(0, val));
-                                                            }}
-                                                         />
-                                                         <input 
-                                                            type="text" 
-                                                            className={`w-12 p-1.5 bg-transparent border rounded-lg text-slate-400 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none text-xs transition-colors text-center ${!work.unit.trim() ? 'border-red-500/50 ring-1 ring-red-500/30' : 'border-transparent'}`}
-                                                            value={work.unit}
-                                                            onChange={(e) => updateWork(compIndex, wIndex, 'unit', e.target.value)}
-                                                            title={!work.unit.trim() ? t.error : undefined}
-                                                         />
+                                                     <div className="flex justify-center">
+                                                         <div className={`flex items-center bg-black/20 border rounded-lg overflow-hidden transition-all focus-within:ring-1 focus-within:ring-purple-500 focus-within:border-purple-500 ${!work.unit.trim() ? 'border-red-500/50 ring-1 ring-red-500/30' : 'border-white/10'}`}>
+                                                             <input 
+                                                                type="number" 
+                                                                min="0"
+                                                                step="0.01"
+                                                                onKeyDown={(e) => {
+                                                                  if (e.key === '-' || e.key === 'e') e.preventDefault();
+                                                                }}
+                                                                className="w-20 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
+                                                                value={work.quantity === 0 ? '' : work.quantity}
+                                                                placeholder="0"
+                                                                onChange={(e) => {
+                                                                  const val = parseFloat(e.target.value);
+                                                                  updateWork(compIndex, wIndex, 'quantity', isNaN(val) ? 0 : Math.max(0, val));
+                                                                }}
+                                                             />
+                                                             <input 
+                                                                type="text" 
+                                                                className="w-12 p-1.5 pl-0 bg-transparent text-left text-purple-300/70 outline-none text-xs font-medium"
+                                                                value={work.unit}
+                                                                onChange={(e) => updateWork(compIndex, wIndex, 'unit', e.target.value)}
+                                                                title={!work.unit.trim() ? t.error : undefined}
+                                                             />
+                                                         </div>
                                                      </div>
                                                  </td>
                                                  <td className="px-4 py-3">
@@ -314,29 +316,31 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3">
-                                                     <div className="flex justify-center gap-2">
-                                                         <input 
-                                                            type="number" 
-                                                            min="0"
-                                                            step="0.01"
-                                                            onKeyDown={(e) => {
-                                                              if (e.key === '-' || e.key === 'e') e.preventDefault();
-                                                            }}
-                                                            className="w-20 p-1.5 bg-black/20 border border-white/10 rounded-lg text-center text-white focus:border-blue-500 outline-none text-xs transition-colors"
-                                                            value={mat.quantity === 0 ? '' : mat.quantity}
-                                                            placeholder="0"
-                                                            onChange={(e) => {
-                                                              const val = parseFloat(e.target.value);
-                                                              updateMaterial(compIndex, mIndex, 'quantity', isNaN(val) ? 0 : Math.max(0, val));
-                                                            }}
-                                                         />
-                                                         <input 
-                                                            type="text" 
-                                                            className={`w-12 p-1.5 bg-transparent border rounded-lg text-slate-400 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none text-xs transition-colors text-center ${!mat.unit.trim() ? 'border-red-500/50 ring-1 ring-red-500/30' : 'border-transparent'}`}
-                                                            value={mat.unit}
-                                                            onChange={(e) => updateMaterial(compIndex, mIndex, 'unit', e.target.value)}
-                                                            title={!mat.unit.trim() ? t.error : undefined}
-                                                         />
+                                                     <div className="flex justify-center">
+                                                         <div className={`flex items-center bg-black/20 border rounded-lg overflow-hidden transition-all focus-within:ring-1 focus-within:ring-blue-500 focus-within:border-blue-500 ${!mat.unit.trim() ? 'border-red-500/50 ring-1 ring-red-500/30' : 'border-white/10'}`}>
+                                                             <input 
+                                                                type="number" 
+                                                                min="0"
+                                                                step="0.01"
+                                                                onKeyDown={(e) => {
+                                                                  if (e.key === '-' || e.key === 'e') e.preventDefault();
+                                                                }}
+                                                                className="w-20 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
+                                                                value={mat.quantity === 0 ? '' : mat.quantity}
+                                                                placeholder="0"
+                                                                onChange={(e) => {
+                                                                  const val = parseFloat(e.target.value);
+                                                                  updateMaterial(compIndex, mIndex, 'quantity', isNaN(val) ? 0 : Math.max(0, val));
+                                                                }}
+                                                             />
+                                                             <input 
+                                                                type="text" 
+                                                                className="w-12 p-1.5 pl-0 bg-transparent text-left text-blue-300/70 outline-none text-xs font-medium"
+                                                                value={mat.unit}
+                                                                onChange={(e) => updateMaterial(compIndex, mIndex, 'unit', e.target.value)}
+                                                                title={!mat.unit.trim() ? t.error : undefined}
+                                                             />
+                                                         </div>
                                                      </div>
                                                  </td>
                                                  <td className="px-4 py-3">
