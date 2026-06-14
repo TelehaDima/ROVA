@@ -219,7 +219,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                  <table className="w-full text-sm text-left table-fixed">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
+                                             <th className="px-4 py-3 font-medium w-[350px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
                                              <th className="px-4 py-3 font-medium w-[220px] text-center">{t.tableQty}</th>
                                              <th className="px-4 py-3 w-[140px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[140px] text-center font-medium">{t.tableSum}</th>
@@ -299,7 +299,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                  <table className="w-full text-sm text-left table-fixed">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
+                                             <th className="px-4 py-3 font-medium w-[350px] sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
                                              <th className="px-4 py-3 font-medium w-[220px] text-center">{t.tableRate}</th>
                                              <th className="px-4 py-3 w-[140px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[140px] text-center font-medium">{t.tableSum}</th>
