@@ -25,6 +25,7 @@ import { RestorationReport, Language } from './types';
 import { analyzeRestorationImage, translateReport } from './services/geminiService';
 import { getProjects, saveProject, deleteProject } from './services/storageService';
 import { generatePDF } from './services/pdfService';
+import { generateWord } from './services/wordService';
 import { TRANSLATIONS } from './constants';
 import Auth from './components/Auth';
 import { supabase } from './services/supabaseClient';
@@ -51,6 +52,7 @@ const App: React.FC = () => {
   const [isRecovery, setIsRecovery] = useState(false);
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isExportingWord, setIsExportingWord] = useState(false);
   
   // Notification state
   const [notification, setNotification] = useState<{msg: string, type: 'success' | 'error'} | null>(null);
@@ -231,6 +233,20 @@ const App: React.FC = () => {
       setNotification({ msg: t.error || 'Export failed', type: 'error' });
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  const handleExportWord = async () => {
+    if (!report) return;
+    setIsExportingWord(true);
+    try {
+      await generateWord(report, language);
+      setNotification({ msg: language === 'uk' ? 'Word збережено!' : language === 'pl' ? 'Word zapisany!' : 'Word saved!', type: 'success' });
+    } catch (err) {
+      console.error(err);
+      setNotification({ msg: t.error || 'Export failed', type: 'error' });
+    } finally {
+      setIsExportingWord(false);
     }
   };
 
@@ -603,7 +619,7 @@ const App: React.FC = () => {
                 </div>
                 
                 {report && (
-                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 no-print">
+                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 no-print">
                      <button 
                       onClick={handleSave}
                       className="w-full py-4 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 font-bold text-lg transform active:scale-95"
@@ -618,6 +634,14 @@ const App: React.FC = () => {
                      >
                        {isExporting ? <RefreshCw className="animate-spin" size={24} /> : <Download size={24} />}
                        {language === 'uk' ? 'PDF' : language === 'en' ? 'PDF' : 'PDF'}
+                     </button>
+                     <button 
+                      onClick={handleExportWord}
+                      disabled={isExportingWord}
+                      className={`w-full py-4 px-6 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl hover:opacity-90 transition-all shadow-lg shadow-blue-500/20 flex items-center justify-center gap-3 font-bold text-lg transform active:scale-95 ${isExportingWord ? 'opacity-50 cursor-not-allowed' : ''}`}
+                     >
+                       {isExportingWord ? <RefreshCw className="animate-spin" size={24} /> : <Download size={24} />}
+                       Word (DOCX)
                      </button>
                    </div>
                 )}

@@ -108,9 +108,14 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
 
       <div className="bg-white/5 rounded-3xl shadow-2xl border border-white/10 overflow-hidden animate-slide-up delay-300 backdrop-blur-xl">
          <div className="p-6 bg-white/5 border-b border-white/10 flex justify-between items-center">
-             <h3 className="font-serif font-bold text-xl text-white flex items-center gap-2">
-                <CalcIcon className="text-purple-400" /> {t.calcTitle}
-             </h3>
+             <div className="flex flex-col">
+                 <h3 className="font-serif font-bold text-xl text-white flex items-center gap-2">
+                    <CalcIcon className="text-purple-400" /> {t.calcTitle}
+                 </h3>
+                 <p className="text-xs text-slate-400 mt-1 max-w-md">
+                   * {language === 'uk' ? 'Ціни згенеровані ШІ на основі середніх ринкових даних і можуть бути відредаговані вручну.' : language === 'pl' ? 'Ceny są generowane przez AI na podstawie średnich danych rynkowych i mogą być edytowane ręcznie.' : 'Prices are AI-generated based on market averages and can be edited manually.'}
+                 </p>
+             </div>
              <div className="flex flex-col sm:flex-row items-end sm:items-center gap-4">
                  <button 
                    onClick={handleRecalculate}
@@ -163,11 +168,11 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                          {comp.suggestedWorks.map((work, wIndex) => (
                                              <tr key={work.id} className="hover:bg-white/5 transition-colors group">
                                                  <td className="px-4 py-3">
-                                                     <input 
-                                                        type="text" 
-                                                        className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all"
+                                                     <textarea 
+                                                        className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all resize-y min-h-[40px]"
                                                         value={work.description}
                                                         onChange={(e) => updateWork(compIndex, wIndex, 'description', e.target.value)}
+                                                        rows={2}
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3 whitespace-nowrap">
@@ -242,11 +247,11 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                          {comp.requiredMaterials.map((mat, mIndex) => (
                                              <tr key={mat.id} className="hover:bg-white/5 transition-colors group">
                                                  <td className="px-4 py-3">
-                                                     <input 
-                                                        type="text" 
-                                                        className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all"
+                                                     <textarea 
+                                                        className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all resize-y min-h-[40px]"
                                                         value={mat.name}
                                                         onChange={(e) => updateMaterial(compIndex, mIndex, 'name', e.target.value)}
+                                                        rows={2}
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3">
