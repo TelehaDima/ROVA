@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { RestorationReport, calculateWorkTotal, calculateMaterialTotal, Language } from '../types';
 import { TRANSLATIONS } from '../constants';
-import { Calculator as CalcIcon, Hammer, Package, DollarSign, Percent, RefreshCw, Sparkles } from 'lucide-react';
+import { Calculator as CalcIcon, Hammer, Package, DollarSign, Percent, RefreshCw, Sparkles, Trash2, Plus } from 'lucide-react';
 import { recalculateReport } from '../services/geminiService';
 
 interface CalculatorProps {
@@ -126,6 +126,56 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
     onUpdateReport({ ...report, overheadPercentage: val });
   };
 
+  const removeWork = (componentIndex: number, workIndex: number) => {
+    const newComponents = report.components.map((comp, cIdx) => {
+      if (cIdx !== componentIndex) return comp;
+      const newWorks = [...comp.suggestedWorks];
+      newWorks.splice(workIndex, 1);
+      return { ...comp, suggestedWorks: newWorks };
+    });
+    onUpdateReport({ ...report, components: newComponents });
+  };
+
+  const addWork = (componentIndex: number) => {
+    const newComponents = report.components.map((comp, cIdx) => {
+      if (cIdx !== componentIndex) return comp;
+      const newWorks = [...comp.suggestedWorks, {
+        id: crypto.randomUUID(),
+        description: '',
+        unit: 'szt.',
+        quantity: 1,
+        unitPrice: 0
+      }];
+      return { ...comp, suggestedWorks: newWorks };
+    });
+    onUpdateReport({ ...report, components: newComponents });
+  };
+
+  const removeMaterial = (componentIndex: number, materialIndex: number) => {
+    const newComponents = report.components.map((comp, cIdx) => {
+      if (cIdx !== componentIndex) return comp;
+      const newMaterials = [...comp.requiredMaterials];
+      newMaterials.splice(materialIndex, 1);
+      return { ...comp, requiredMaterials: newMaterials };
+    });
+    onUpdateReport({ ...report, components: newComponents });
+  };
+
+  const addMaterial = (componentIndex: number) => {
+    const newComponents = report.components.map((comp, cIdx) => {
+      if (cIdx !== componentIndex) return comp;
+      const newMaterials = [...comp.requiredMaterials, {
+        id: crypto.randomUUID(),
+        name: '',
+        unit: 'szt.',
+        quantity: 1,
+        unitPrice: 0
+      }];
+      return { ...comp, requiredMaterials: newMaterials };
+    });
+    onUpdateReport({ ...report, components: newComponents });
+  };
+
   const totalWorksCost = report.components.reduce((acc, comp) => acc + calculateWorkTotal(comp.suggestedWorks), 0);
   const totalMaterialsCost = report.components.reduce((acc, comp) => acc + calculateMaterialTotal(comp.requiredMaterials), 0);
   const subTotal = totalWorksCost + totalMaterialsCost;
@@ -223,6 +273,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableQty}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 w-[50px] text-center no-print"></th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
@@ -283,11 +334,19 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                  <td className="px-4 py-3 text-center font-medium text-emerald-400 font-mono">
                                                      {(work.quantity * work.unitPrice).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                  </td>
+                                                 <td className="px-4 py-3 text-center no-print">
+                                                     <button onClick={() => removeWork(compIndex, wIndex)} className="text-slate-500 hover:text-red-400 transition-colors p-1" title="Delete">
+                                                         <Trash2 size={16} />
+                                                     </button>
+                                                 </td>
                                              </tr>
                                          ))}
                                      </tbody>
                                  </table>
                              </DualScrollTableWrapper>
+                             <button onClick={() => addWork(compIndex)} className="mt-3 flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 rounded-lg transition-all text-xs font-medium no-print">
+                                 <Plus size={14} /> {language === 'uk' ? 'Додати роботу' : language === 'pl' ? 'Dodaj pracę' : 'Add work'}
+                             </button>
                          </div>
 
                          {/* Materials Table */}
@@ -303,6 +362,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableRate}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 w-[50px] text-center no-print"></th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
@@ -363,11 +423,16 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                  <td className="px-4 py-3 text-center font-medium text-emerald-400 font-mono">
                                                      {(mat.quantity * mat.unitPrice).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                  </td>
+                                                 <td className="px-4 py-3 text-center no-print">
+                                                     <button onClick={() => removeMaterial(compIndex, mIndex)} className="text-slate-500 hover:text-red-400 transition-colors p-1" title="Delete">
+                                                         <Trash2 size={16} />
+                                                     </button>
+                                                 </td>
                                              </tr>
                                          ))}
                                          {comp.requiredMaterials.length === 0 && (
                                             <tr>
-                                                <td colSpan={4} className="px-4 py-6 text-center text-slate-500 italic bg-white/5">
+                                                <td colSpan={5} className="px-4 py-6 text-center text-slate-500 italic bg-white/5">
                                                     {t.noMaterials}
                                                 </td>
                                             </tr>
@@ -375,6 +440,9 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      </tbody>
                                  </table>
                              </DualScrollTableWrapper>
+                             <button onClick={() => addMaterial(compIndex)} className="mt-3 flex items-center gap-2 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 rounded-lg transition-all text-xs font-medium no-print">
+                                 <Plus size={14} /> {language === 'uk' ? 'Додати матеріал' : language === 'pl' ? 'Dodaj materiał' : 'Add material'}
+                             </button>
                          </div>
                      </div>
                  </div>
