@@ -31,6 +31,46 @@ const AutoResizeTextarea = ({ value, onChange, className }: { value: string, onC
   );
 };
 
+const DualScrollTableWrapper = ({ children, minWidth }: { children: React.ReactNode, minWidth: string }) => {
+  const topScrollRef = React.useRef<HTMLDivElement>(null);
+  const bottomScrollRef = React.useRef<HTMLDivElement>(null);
+
+  const handleTopScroll = () => {
+    if (bottomScrollRef.current && topScrollRef.current) {
+      bottomScrollRef.current.scrollLeft = topScrollRef.current.scrollLeft;
+    }
+  };
+
+  const handleBottomScroll = () => {
+    if (topScrollRef.current && bottomScrollRef.current) {
+      topScrollRef.current.scrollLeft = bottomScrollRef.current.scrollLeft;
+    }
+  };
+
+  return (
+    <div className="flex flex-col w-full relative">
+      {/* Top scrollbar */}
+      <div 
+        ref={topScrollRef} 
+        className="overflow-x-auto overflow-y-hidden" 
+        onScroll={handleTopScroll}
+      >
+        <div style={{ width: minWidth, height: '1px' }}></div>
+      </div>
+      {/* Table container */}
+      <div 
+        ref={bottomScrollRef} 
+        className="overflow-x-auto rounded-xl border border-white/5 mt-1" 
+        onScroll={handleBottomScroll}
+      >
+        <div style={{ minWidth }}>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, language }) => {
   const t = TRANSLATIONS[language];
   const [isRecalculating, setIsRecalculating] = useState(false);
@@ -175,11 +215,11 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                              <h5 className="text-xs font-bold text-purple-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Hammer size={12} /> {t.summaryWorks}
                              </h5>
-                             <div className="overflow-x-auto rounded-xl border border-white/5">
-                                 <table className="w-full min-w-[650px] text-sm text-left">
+                             <DualScrollTableWrapper minWidth="650px">
+                                 <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium">{t.tableDesc}</th>
+                                             <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
                                              <th className="px-4 py-3 font-medium w-40">{t.tableQty}</th>
                                              <th className="px-4 py-3 w-32 font-medium">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-32 text-right font-medium">{t.tableSum}</th>
@@ -188,7 +228,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.suggestedWorks.map((work, wIndex) => (
                                              <tr key={work.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3">
+                                                 <td className="px-4 py-3 sticky left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
                                                      <AutoResizeTextarea 
                                                         className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all"
                                                         value={work.description}
@@ -245,7 +285,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                          ))}
                                      </tbody>
                                  </table>
-                             </div>
+                             </DualScrollTableWrapper>
                          </div>
 
                          {/* Materials Table */}
@@ -253,11 +293,11 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                              <h5 className="text-xs font-bold text-blue-300 uppercase tracking-wider mb-4 flex items-center gap-2">
                                 <Package size={12} /> {t.summaryMaterials}
                              </h5>
-                             <div className="overflow-x-auto rounded-xl border border-white/5">
-                                 <table className="w-full min-w-[650px] text-sm text-left">
+                             <DualScrollTableWrapper minWidth="650px">
+                                 <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium">{t.tableName}</th>
+                                             <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
                                              <th className="px-4 py-3 font-medium w-40">{t.tableRate}</th>
                                              <th className="px-4 py-3 w-32 font-medium">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-32 text-right font-medium">{t.tableSum}</th>
@@ -266,7 +306,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.requiredMaterials.map((mat, mIndex) => (
                                              <tr key={mat.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3">
+                                                 <td className="px-4 py-3 sticky left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
                                                      <AutoResizeTextarea 
                                                         className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all"
                                                         value={mat.name}
@@ -330,7 +370,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                          )}
                                      </tbody>
                                  </table>
-                             </div>
+                             </DualScrollTableWrapper>
                          </div>
                      </div>
                  </div>
