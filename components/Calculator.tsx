@@ -220,7 +220,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
-                                             <th className="px-4 py-3 font-medium w-48 text-center">{t.tableQty}</th>
+                                             <th className="px-4 py-3 font-medium w-64 text-center">{t.tableQty}</th>
                                              <th className="px-4 py-3 w-40 font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-40 text-center font-medium">{t.tableSum}</th>
                                          </tr>
@@ -245,7 +245,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                                 onKeyDown={(e) => {
                                                                   if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                                 }}
-                                                                className="w-20 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
+                                                                className="w-28 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
                                                                 value={work.quantity === 0 ? '' : work.quantity}
                                                                 placeholder="0"
                                                                 onChange={(e) => {
@@ -255,7 +255,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                              />
                                                              <input 
                                                                 type="text" 
-                                                                className="w-12 p-1.5 pl-0 bg-transparent text-left text-purple-300/70 outline-none text-xs font-medium"
+                                                                className="w-16 p-1.5 pl-0 bg-transparent text-left text-purple-300/70 outline-none text-xs font-medium"
                                                                 value={work.unit}
                                                                 onChange={(e) => updateWork(compIndex, wIndex, 'unit', e.target.value)}
                                                                 title={!work.unit.trim() ? t.error : undefined}
@@ -300,7 +300,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
-                                             <th className="px-4 py-3 font-medium w-48 text-center">{t.tableRate}</th>
+                                             <th className="px-4 py-3 font-medium w-64 text-center">{t.tableRate}</th>
                                              <th className="px-4 py-3 w-40 font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-40 text-center font-medium">{t.tableSum}</th>
                                          </tr>
@@ -325,7 +325,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                                 onKeyDown={(e) => {
                                                                   if (e.key === '-' || e.key === 'e') e.preventDefault();
                                                                 }}
-                                                                className="w-20 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
+                                                                className="w-28 p-1.5 pr-1 bg-transparent text-right text-white outline-none text-xs font-medium"
                                                                 value={mat.quantity === 0 ? '' : mat.quantity}
                                                                 placeholder="0"
                                                                 onChange={(e) => {
@@ -335,7 +335,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                              />
                                                              <input 
                                                                 type="text" 
-                                                                className="w-12 p-1.5 pl-0 bg-transparent text-left text-blue-300/70 outline-none text-xs font-medium"
+                                                                className="w-16 p-1.5 pl-0 bg-transparent text-left text-blue-300/70 outline-none text-xs font-medium"
                                                                 value={mat.unit}
                                                                 onChange={(e) => updateMaterial(compIndex, mIndex, 'unit', e.target.value)}
                                                                 title={!mat.unit.trim() ? t.error : undefined}
