@@ -10,6 +10,12 @@ body {
   color: #f8fafc;
 }
 
+button:not(:disabled),
+[role="button"]:not(:disabled),
+select {
+  cursor: pointer;
+}
+
 /* Hide number input arrows (spinners) globally */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
