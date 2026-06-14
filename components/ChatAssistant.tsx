@@ -73,7 +73,14 @@ const ChatAssistant: React.FC<ChatAssistantProps> = ({ language, report, onUpdat
     }
   };
 
-  const quickHints = [t.chatHint1, t.chatHint2, t.chatHint3];
+  const generalHints = [t.chatHint1, t.chatHint2, t.chatHint3];
+  const projectHints = language === 'uk' 
+    ? ["Які альтернативні матеріали можна використати?", "Чи можна здешевити ці роботи?", "Як безпечно зберігати цей об'єкт?"]
+    : language === 'pl'
+    ? ["Jakie alternatywne materiały można wykorzystać?", "Czy można obniżyć koszty tych prac?", "Jak bezpiecznie przechowywać ten obiekt?"]
+    : ["What alternative materials can be used?", "Can we reduce the cost of these works?", "How to safely store this object?"];
+  
+  const quickHints = report ? projectHints : generalHints;
 
   return (
     <div className="flex flex-col h-full bg-white/5 rounded-3xl border border-white/10 shadow-2xl overflow-hidden backdrop-blur-xl">
