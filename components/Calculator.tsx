@@ -273,18 +273,22 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableQty}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
-                                             <th className="px-4 py-3 w-[50px] text-center no-print"></th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
                                          {comp.suggestedWorks.map((work, wIndex) => (
                                              <tr key={work.id} className="hover:bg-white/5 transition-colors group">
                                                  <td className="px-4 py-3 sm:sticky sm:left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
-                                                     <AutoResizeTextarea 
-                                                        className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all"
-                                                        value={work.description}
-                                                        onChange={(e) => updateWork(compIndex, wIndex, 'description', e.target.value)}
-                                                     />
+                                                     <div className="flex items-start gap-2">
+                                                         <button onClick={() => removeWork(compIndex, wIndex)} className="mt-1.5 opacity-50 md:opacity-0 group-hover:opacity-100 shrink-0 text-slate-500 hover:text-red-400 transition-all p-1 no-print" title="Delete">
+                                                             <Trash2 size={14} />
+                                                         </button>
+                                                         <AutoResizeTextarea 
+                                                            className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all"
+                                                            value={work.description}
+                                                            onChange={(e) => updateWork(compIndex, wIndex, 'description', e.target.value)}
+                                                         />
+                                                     </div>
                                                  </td>
                                                  <td className="px-4 py-3 whitespace-nowrap">
                                                      <div className="flex justify-center">
@@ -334,11 +338,6 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                  <td className="px-4 py-3 text-center font-medium text-emerald-400 font-mono">
                                                      {(work.quantity * work.unitPrice).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                  </td>
-                                                 <td className="px-4 py-3 text-center no-print">
-                                                     <button onClick={() => removeWork(compIndex, wIndex)} className="text-slate-500 hover:text-red-400 transition-colors p-1" title="Delete">
-                                                         <Trash2 size={16} />
-                                                     </button>
-                                                 </td>
                                              </tr>
                                          ))}
                                      </tbody>
@@ -362,18 +361,22 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableRate}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
-                                             <th className="px-4 py-3 w-[50px] text-center no-print"></th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
                                          {comp.requiredMaterials.map((mat, mIndex) => (
                                              <tr key={mat.id} className="hover:bg-white/5 transition-colors group">
                                                  <td className="px-4 py-3 sm:sticky sm:left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
-                                                     <AutoResizeTextarea 
-                                                        className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all"
-                                                        value={mat.name}
-                                                        onChange={(e) => updateMaterial(compIndex, mIndex, 'name', e.target.value)}
-                                                     />
+                                                     <div className="flex items-start gap-2">
+                                                         <button onClick={() => removeMaterial(compIndex, mIndex)} className="mt-1.5 opacity-50 md:opacity-0 group-hover:opacity-100 shrink-0 text-slate-500 hover:text-red-400 transition-all p-1 no-print" title="Delete">
+                                                             <Trash2 size={14} />
+                                                         </button>
+                                                         <AutoResizeTextarea 
+                                                            className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all"
+                                                            value={mat.name}
+                                                            onChange={(e) => updateMaterial(compIndex, mIndex, 'name', e.target.value)}
+                                                         />
+                                                     </div>
                                                  </td>
                                                  <td className="px-4 py-3">
                                                      <div className="flex justify-center">
@@ -423,16 +426,11 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                  <td className="px-4 py-3 text-center font-medium text-emerald-400 font-mono">
                                                      {(mat.quantity * mat.unitPrice).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                  </td>
-                                                 <td className="px-4 py-3 text-center no-print">
-                                                     <button onClick={() => removeMaterial(compIndex, mIndex)} className="text-slate-500 hover:text-red-400 transition-colors p-1" title="Delete">
-                                                         <Trash2 size={16} />
-                                                     </button>
-                                                 </td>
                                              </tr>
                                          ))}
                                          {comp.requiredMaterials.length === 0 && (
                                             <tr>
-                                                <td colSpan={5} className="px-4 py-6 text-center text-slate-500 italic bg-white/5">
+                                                <td colSpan={4} className="px-4 py-6 text-center text-slate-500 italic bg-white/5">
                                                     {t.noMaterials}
                                                 </td>
                                             </tr>
