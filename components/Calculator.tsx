@@ -220,9 +220,9 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
-                                             <th className="px-4 py-3 font-medium w-40">{t.tableQty}</th>
-                                             <th className="px-4 py-3 w-32 font-medium">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 w-32 text-right font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium w-40 text-center">{t.tableQty}</th>
+                                             <th className="px-4 py-3 w-32 font-medium text-center">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-32 text-center font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
@@ -236,7 +236,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3 whitespace-nowrap">
-                                                     <div className="flex items-center gap-2">
+                                                     <div className="flex items-center justify-center gap-2">
                                                          <input 
                                                             type="number" 
                                                             min="0"
@@ -278,7 +278,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                         }}
                                                      />
                                                  </td>
-                                                 <td className="px-4 py-3 text-right font-medium text-emerald-400 font-mono">
+                                                 <td className="px-4 py-3 text-center font-medium text-emerald-400 font-mono">
                                                      {(work.quantity * work.unitPrice).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                  </td>
                                              </tr>
@@ -298,9 +298,9 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium sticky left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
-                                             <th className="px-4 py-3 font-medium w-40">{t.tableRate}</th>
-                                             <th className="px-4 py-3 w-32 font-medium">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 w-32 text-right font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium w-40 text-center">{t.tableRate}</th>
+                                             <th className="px-4 py-3 w-32 font-medium text-center">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-32 text-center font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
@@ -314,7 +314,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3">
-                                                     <div className="flex gap-2">
+                                                     <div className="flex justify-center gap-2">
                                                          <input 
                                                             type="number" 
                                                             min="0"
@@ -356,7 +356,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                                         }}
                                                      />
                                                  </td>
-                                                 <td className="px-4 py-3 text-right font-medium text-emerald-400 font-mono">
+                                                 <td className="px-4 py-3 text-center font-medium text-emerald-400 font-mono">
                                                      {(mat.quantity * mat.unitPrice).toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                                                  </td>
                                              </tr>
