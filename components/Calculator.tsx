@@ -10,6 +10,27 @@ interface CalculatorProps {
   language: Language;
 }
 
+const AutoResizeTextarea = ({ value, onChange, className }: { value: string, onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void, className: string }) => {
+  const ref = React.useRef<HTMLTextAreaElement>(null);
+  
+  React.useEffect(() => {
+    if (ref.current) {
+      ref.current.style.height = 'auto';
+      ref.current.style.height = ref.current.scrollHeight + 'px';
+    }
+  }, [value]);
+
+  return (
+    <textarea
+      ref={ref}
+      className={`resize-none overflow-hidden ${className}`}
+      value={value}
+      onChange={onChange}
+      rows={1}
+    />
+  );
+};
+
 const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, language }) => {
   const t = TRANSLATIONS[language];
   const [isRecalculating, setIsRecalculating] = useState(false);
@@ -155,24 +176,23 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                 <Hammer size={12} /> {t.summaryWorks}
                              </h5>
                              <div className="overflow-x-auto rounded-xl border border-white/5">
-                                 <table className="w-full min-w-[500px] text-sm text-left">
+                                 <table className="w-full min-w-[650px] text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium">{t.tableDesc}</th>
-                                             <th className="px-4 py-3 font-medium">{t.tableQty}</th>
-                                             <th className="px-4 py-3 w-28 font-medium">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 text-right font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium w-40">{t.tableQty}</th>
+                                             <th className="px-4 py-3 w-32 font-medium">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-32 text-right font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
                                          {comp.suggestedWorks.map((work, wIndex) => (
                                              <tr key={work.id} className="hover:bg-white/5 transition-colors group">
                                                  <td className="px-4 py-3">
-                                                     <textarea 
-                                                        className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all resize-y min-h-[40px]"
+                                                     <AutoResizeTextarea 
+                                                        className="w-full p-1.5 bg-transparent border border-transparent rounded-lg text-slate-300 hover:bg-black/20 focus:bg-black/40 focus:border-purple-500/50 outline-none transition-all"
                                                         value={work.description}
                                                         onChange={(e) => updateWork(compIndex, wIndex, 'description', e.target.value)}
-                                                        rows={2}
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3 whitespace-nowrap">
@@ -234,24 +254,23 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                 <Package size={12} /> {t.summaryMaterials}
                              </h5>
                              <div className="overflow-x-auto rounded-xl border border-white/5">
-                                 <table className="w-full min-w-[500px] text-sm text-left">
+                                 <table className="w-full min-w-[650px] text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
                                              <th className="px-4 py-3 font-medium">{t.tableName}</th>
-                                             <th className="px-4 py-3 font-medium">{t.tableRate}</th>
-                                             <th className="px-4 py-3 w-28 font-medium">{t.tablePrice}</th>
-                                             <th className="px-4 py-3 text-right font-medium">{t.tableSum}</th>
+                                             <th className="px-4 py-3 font-medium w-40">{t.tableRate}</th>
+                                             <th className="px-4 py-3 w-32 font-medium">{t.tablePrice}</th>
+                                             <th className="px-4 py-3 w-32 text-right font-medium">{t.tableSum}</th>
                                          </tr>
                                      </thead>
                                      <tbody className="divide-y divide-white/5">
                                          {comp.requiredMaterials.map((mat, mIndex) => (
                                              <tr key={mat.id} className="hover:bg-white/5 transition-colors group">
                                                  <td className="px-4 py-3">
-                                                     <textarea 
-                                                        className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all resize-y min-h-[40px]"
+                                                     <AutoResizeTextarea 
+                                                        className="w-full font-medium p-1.5 bg-transparent border border-transparent rounded-lg text-slate-200 hover:bg-black/20 focus:bg-black/40 focus:border-blue-500/50 outline-none transition-all"
                                                         value={mat.name}
                                                         onChange={(e) => updateMaterial(compIndex, mIndex, 'name', e.target.value)}
-                                                        rows={2}
                                                      />
                                                  </td>
                                                  <td className="px-4 py-3">
