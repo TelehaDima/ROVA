@@ -3,7 +3,7 @@ import { RestorationReport, Language } from '../types';
 import { TRANSLATIONS } from '../constants';
 import { calculateWorkTotal, calculateMaterialTotal } from '../types';
 
-export const generateWord = async (report: RestorationReport, language: Language) => {
+export const generateWord = async (report: RestorationReport, language: Language, filename?: string) => {
   const t = TRANSLATIONS[language];
   
   const totalWorksCost = report.components.reduce((acc, comp) => acc + calculateWorkTotal(comp.suggestedWorks), 0);
@@ -188,12 +188,12 @@ export const generateWord = async (report: RestorationReport, language: Language
   
   // Create download link
   const cleanName = report.objectName?.replace(/\s+/g, '_') || 'Projekt';
-  const filename = `${cleanName}_Estimate.docx`;
+  const finalFilename = filename || `${cleanName}_Estimate.docx`;
   
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = filename;
+  a.download = finalFilename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

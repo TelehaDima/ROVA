@@ -242,7 +242,12 @@ const App: React.FC = () => {
     if (!report) return;
     setIsExportingWord(true);
     try {
-      await generateWord(report, language);
+      const tabName = activeTab === 'analysis' ? t.tabAnalysis : activeTab === 'calculator' ? t.tabCalculator : t.tabChat;
+      const suffix = tabName.replace(/\s+/g, '_');
+      const cleanName = report?.objectName?.replace(/\s+/g, '_') || 'Projekt';
+      const filename = `${cleanName}_${suffix}.docx`;
+      
+      await generateWord(report, language, filename);
       setNotification({ msg: language === 'uk' ? 'Word збережено!' : language === 'pl' ? 'Word zapisany!' : 'Word saved!', type: 'success' });
     } catch (err) {
       console.error(err);
