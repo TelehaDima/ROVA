@@ -9,6 +9,28 @@ interface AnalysisDisplayProps {
   language: Language;
 }
 
+const AutoResizeTextarea = ({ value, onChange, className, placeholder, rows }: { value: string, onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void, className: string, placeholder?: string, rows?: number }) => {
+  const ref = React.useRef<HTMLTextAreaElement>(null);
+  
+  React.useEffect(() => {
+    if (ref.current) {
+      ref.current.style.height = 'auto';
+      ref.current.style.height = ref.current.scrollHeight + 'px';
+    }
+  }, [value]);
+
+  return (
+    <textarea
+      ref={ref}
+      className={`resize-none overflow-hidden ${className}`}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      rows={rows || 1}
+    />
+  );
+};
+
 const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateReport, language }) => {
   const t = TRANSLATIONS[language];
   const [activeComponentId, setActiveComponentId] = useState<string | 'ALL'>('ALL');
@@ -219,21 +241,21 @@ const AnalysisDisplay: React.FC<AnalysisDisplayProps> = ({ report, onUpdateRepor
                           <X size={12} />
                         </button>
                      </div>
-                     <textarea 
+                     <AutoResizeTextarea 
                         value={damage.description}
                         onChange={(e) => updateDamage(compIndex, idx, 'description', e.target.value)}
-                        rows={4}
-                        className="w-full flex-grow p-2 text-sm text-slate-200 bg-black/20 border border-red-500/10 focus:border-red-500/30 rounded-lg outline-none resize-y min-h-[80px] placeholder-slate-500 leading-relaxed transition-colors"
+                        rows={1}
+                        className="w-full flex-grow p-2 text-sm text-slate-200 bg-black/20 border border-red-500/10 focus:border-red-500/30 rounded-lg outline-none min-h-[80px] placeholder-slate-500 leading-relaxed transition-colors"
                         placeholder="Wpisz notatkę lub opis uszkodzenia..."
                      />
                      {damage.technique && (
                        <div className="mt-2 pt-2 border-t border-red-500/10">
                          <span className="text-[10px] font-bold text-purple-300 uppercase block mb-1">{t.techRec}</span>
-                         <textarea 
+                         <AutoResizeTextarea 
                             value={damage.technique}
                             onChange={(e) => updateDamage(compIndex, idx, 'technique', e.target.value)}
-                            rows={3}
-                            className="w-full p-2 text-sm text-purple-200 bg-black/20 border border-purple-500/10 focus:border-purple-500/30 rounded-lg outline-none resize-y min-h-[70px] placeholder-purple-900/50 leading-relaxed transition-colors"
+                            rows={1}
+                            className="w-full p-2 text-sm text-purple-200 bg-black/20 border border-purple-500/10 focus:border-purple-500/30 rounded-lg outline-none min-h-[70px] placeholder-purple-900/50 leading-relaxed transition-colors"
                             placeholder="..."
                          />
                        </div>
