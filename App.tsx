@@ -53,6 +53,7 @@ const App: React.FC = () => {
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
   const [isExportingWord, setIsExportingWord] = useState(false);
+  const [cameFromHistory, setCameFromHistory] = useState(false);
   
   // Notification state
   const [notification, setNotification] = useState<{msg: string, type: 'success' | 'error'} | null>(null);
@@ -127,6 +128,7 @@ const App: React.FC = () => {
     setError(null);
     setReport(null);
     setView('report');
+    setCameFromHistory(false);
 
     try {
       const pastProjects = await getProjects();
@@ -255,6 +257,7 @@ const App: React.FC = () => {
     setImage(project.imageBase64 || null);
     setView('report');
     setActiveTab('analysis');
+    setCameFromHistory(true);
   };
 
   const handleDeleteProject = async (id: string) => {
@@ -270,6 +273,17 @@ const App: React.FC = () => {
     setError(null);
     setView('home');
     setActiveTab('analysis');
+    setCameFromHistory(false);
+  };
+
+  const handleBack = () => {
+    if (view === 'report' && cameFromHistory) {
+      setView('history');
+      setReport(null);
+      setImage(null);
+    } else {
+      setView('home');
+    }
   };
 
   const [historyProjects, setHistoryProjects] = useState<RestorationReport[]>([]);
@@ -358,7 +372,7 @@ const App: React.FC = () => {
 
                {view !== 'home' && (
                  <button 
-                   onClick={() => setView('home')}
+                   onClick={handleBack}
                    className="w-10 h-10 flex items-center justify-center rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-slate-300 hover:text-white"
                  >
                    <ArrowLeft size={20} />
