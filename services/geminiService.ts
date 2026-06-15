@@ -58,16 +58,17 @@ export const analyzeRestorationImage = async (base64Image: string, language: Lan
     - Язык ответа: ${langInstruction}
     ${memoryContext}
     
-    ТРЕБОВАНИЯ К МАТЕРИАЛАМ (ВАЖНО):
-    - Не пишите просто "Клей" или "Растворитель". 
-    - Пишите конкретно: "Клей осетровый 7%", "Paraloid B-72 (5% в ацетоне)", "Раствор гидроксида аммония".
-    - Расход материалов указывайте с учетом запаса 15-20%.
-    - Указывайте единицы измерения материалов преимущественно в граммах (г) или миллилитрах (мл) для небольших объемов.
+    ТРЕБОВАНИЯ К МАТЕРИАЛАМ И РАБОТАМ (ОЧЕНЬ ВАЖНО):
+    1. ИЗБЕГАЙТЕ абстрактных названий. Не пишите "Клей", пишите конкретно "Klej kostny 15%", "Paraloid B-72 (5% w toluenie)", "Woda demineralizowana", "Bibuła japońska".
+    2. Указывайте РЕАЛИСТИЧНЫЕ единицы и объемы (мл, граммы, см2, м2, часы).
+    3. Работы должны быть разбиты профессионально: Очистка, Дезинфекция, Консолидация, Склейка, Ретушь, Лакировка.
     
-    ТРЕБОВАНИЯ К ЦЕНАМ:
-    - Оцените стоимость работ и материалов в польских злотых (PLN/zł) на основе средних рыночных цен в Польше.
-    - В поле estimatedTotalPrice указывайте ИТОГОВУЮ стоимость за ВСЕ указанное количество (quantity).
-    - Возвращайте только числа (без валюты).
+    ТРЕБОВАНИЯ К ЦЕНАМ (РЫНОК ПОЛЬШИ - PLN):
+    - Цены должны отражать РЕАЛЬНЫЙ прайс-лист профессионального реставратора в Польше. Не берите цифры с потолка!
+    - Стоимость работ (unitPrice) должна учитывать, что 1 час работы реставратора стоит от 150 до 300 PLN. Оценивайте сложность.
+    - Стоимость материалов должна отражать розничные цены на специализированную химию (например, Paraloid B-72 ~150 PLN/кг, сусальное золото ~250 PLN/книжка). 
+    - Избегайте цен вроде 0.5 PLN за работу или 10000 PLN за каплю клея.
+    - В поле "unitPrice" указывайте стоимость за 1 единицу объема/работ.
     
     Верни ответ ИСКЛЮЧИТЕЛЬНО в формате JSON (без Markdown):
     {
@@ -89,10 +90,10 @@ export const analyzeRestorationImage = async (base64Image: string, language: Lan
           "dimensions": "Оценка габаритов",
           "suggestedWorks": [
             {
-              "description": "Технологическая operation",
-              "unit": "м2/шт/дм2",
+              "description": "Технологическая операция (например: Punktowanie barwne)",
+              "unit": "м2/шт/h/мл",
               "quantity": Число,
-              "estimatedTotalPrice": Число
+              "unitPrice": Число
             }
           ],
           "requiredMaterials": [
@@ -100,7 +101,7 @@ export const analyzeRestorationImage = async (base64Image: string, language: Lan
               "name": "Точное название материала (Химия/Бренд)",
               "unit": "г/мл/шт",
               "quantity": Число,
-              "estimatedTotalPrice": Число
+              "unitPrice": Число
             }
           ]
         }
@@ -189,24 +190,30 @@ export const analyzeRestorationImage = async (base64Image: string, language: Lan
         dimensions: comp.dimensions || "-",
         suggestedWorks: (comp.suggestedWorks || []).map((w: any) => {
           const qty = parseNumber(w.quantity) || 1;
-          const totalPrice = parseNumber(w.estimatedTotalPrice || w.estimatedUnitPrice) || 0;
+          const uPrice = w.unitPrice !== undefined 
+            ? parseNumber(w.unitPrice) 
+            : (parseNumber(w.estimatedTotalPrice || w.estimatedUnitPrice) || 0) / qty;
+            
           return {
             id: generateId(),
             description: w.description,
             unit: w.unit,
             quantity: qty,
-            unitPrice: qty > 0 ? Number((totalPrice / qty).toFixed(2)) : totalPrice
+            unitPrice: Number((uPrice || 0).toFixed(2))
           };
         }),
         requiredMaterials: (comp.requiredMaterials || []).map((m: any) => {
           const qty = parseNumber(m.quantity) || 1;
-          const totalPrice = parseNumber(m.estimatedTotalPrice || m.estimatedUnitPrice) || 0;
+          const uPrice = m.unitPrice !== undefined 
+            ? parseNumber(m.unitPrice) 
+            : (parseNumber(m.estimatedTotalPrice || m.estimatedUnitPrice) || 0) / qty;
+
           return {
             id: generateId(),
             name: m.name,
             unit: m.unit,
             quantity: qty,
-            unitPrice: qty > 0 ? Number((totalPrice / qty).toFixed(2)) : totalPrice
+            unitPrice: Number((uPrice || 0).toFixed(2))
           };
         })
       }))
