@@ -9,6 +9,7 @@ export const logUserAction = async (actionType: ActionType, details?: any) => {
 
     const { error } = await supabase.from('user_actions').insert({
       user_id: session.user.id,
+      user_email: session.user.email,
       action_type: actionType,
       details: details || {}
     });
