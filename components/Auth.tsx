@@ -286,7 +286,7 @@ const Auth: React.FC<AuthProps> = ({ language, isRecoveryMode = false, onRecover
             <div className="mt-6 text-center space-y-3">
               <button
                 onClick={() => { setIsRegister(!isRegister); setErrorMsg(null); }}
-                className="w-full py-3 px-4 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+                className="w-full py-3 px-4 bg-red-500/20 border border-red-500/30 hover:bg-red-500/30 text-red-100 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
               >
                 {isRegister ? <LogIn className="w-4 h-4" /> : <UserPlus className="w-4 h-4" />}
                 {isRegister ? t.authSwitchToLogin : t.authSwitchToRegister}
