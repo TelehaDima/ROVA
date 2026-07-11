@@ -21,15 +21,16 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageSelected, isLoadin
     setIsMobile(checkMobile);
   }, []);
 
-  const handleFile = (file: File) => {
+  const handleFile = async (file: File) => {
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        const base64 = result.split(',')[1];
-        onImageSelected(base64, result);
-      };
-      reader.readAsDataURL(file);
+      import('../services/imageUtils').then(async ({ resizeImageFile }) => {
+        try {
+          const { base64, dataUrl } = await resizeImageFile(file);
+          onImageSelected(base64, dataUrl);
+        } catch (err) {
+          console.error('Error resizing image', err);
+        }
+      });
     }
   };
 

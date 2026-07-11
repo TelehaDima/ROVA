@@ -269,7 +269,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                  <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium min-w-[250px] sm:sticky sm:left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableDesc}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[250px] bg-white/5 backdrop-blur">{t.tableDesc}</th>
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableQty}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
@@ -278,7 +278,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.suggestedWorks.map((work, wIndex) => (
                                              <tr key={work.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3 sm:sticky sm:left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
+                                                 <td className="px-4 py-3 bg-transparent transition-colors">
                                                      <div className="flex items-start gap-2">
                                                          <button onClick={() => removeWork(compIndex, wIndex)} className="mt-1.5 opacity-50 md:opacity-0 group-hover:opacity-100 shrink-0 text-slate-500 hover:text-red-400 transition-all p-1 no-print" title="Delete">
                                                              <Trash2 size={14} />
@@ -357,7 +357,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                  <table className="w-full text-sm text-left">
                                      <thead className="text-xs text-slate-400 bg-white/5 uppercase">
                                          <tr>
-                                             <th className="px-4 py-3 font-medium min-w-[250px] sm:sticky sm:left-0 z-20 bg-slate-800/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)]">{t.tableName}</th>
+                                             <th className="px-4 py-3 font-medium min-w-[250px] bg-white/5 backdrop-blur">{t.tableName}</th>
                                              <th className="px-4 py-3 font-medium w-[180px] text-center">{t.tableRate}</th>
                                              <th className="px-4 py-3 w-[130px] font-medium text-center">{t.tablePrice}</th>
                                              <th className="px-4 py-3 w-[130px] text-center font-medium">{t.tableSum}</th>
@@ -366,7 +366,7 @@ const Calculator: React.FC<CalculatorProps> = ({ report, onUpdateReport, languag
                                      <tbody className="divide-y divide-white/5">
                                          {comp.requiredMaterials.map((mat, mIndex) => (
                                              <tr key={mat.id} className="hover:bg-white/5 transition-colors group">
-                                                 <td className="px-4 py-3 sm:sticky sm:left-0 z-10 bg-slate-900/95 backdrop-blur shadow-[1px_0_0_rgba(255,255,255,0.1)] group-hover:bg-slate-800/95 transition-colors">
+                                                 <td className="px-4 py-3 bg-transparent transition-colors">
                                                      <div className="flex items-start gap-2">
                                                          <button onClick={() => removeMaterial(compIndex, mIndex)} className="mt-1.5 opacity-50 md:opacity-0 group-hover:opacity-100 shrink-0 text-slate-500 hover:text-red-400 transition-all p-1 no-print" title="Delete">
                                                              <Trash2 size={14} />

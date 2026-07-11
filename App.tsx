@@ -31,6 +31,7 @@ import Auth from './components/Auth';
 import { supabase } from './services/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 import { logUserAction } from './services/analyticsService';
+import { resizeImageFile } from './services/imageUtils';
 
 type ViewState = 'home' | 'upload' | 'report' | 'history' | 'chat';
 type TabState = 'analysis' | 'calculator' | 'chat';
@@ -170,37 +171,32 @@ const App: React.FC = () => {
     if (!file || !report) return;
 
     if (file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const result = reader.result as string;
-        const base64 = result.split(',')[1];
+      setIsAddingPhoto(true);
+      try {
+        const { base64, dataUrl: result } = await resizeImageFile(file);
         
-        setIsAddingPhoto(true);
-        try {
-          const pastProjects = await getProjects();
-          const newAnalysis = await analyzeRestorationImage(base64, language, pastProjects);
-          
-          // Tag new components with the additional image
-          const taggedComponents = newAnalysis.components.map(c => ({ ...c, sourceImage: result }));
-          
-          setReport(prev => {
-            if (!prev) return prev;
-            return {
-              ...prev,
-              components: [...prev.components, ...taggedComponents],
-              additionalImages: [...(prev.additionalImages || []), result]
-            };
-          });
-          await logUserAction('add_additional_photo', { project_id: report.id });
-          setNotification({ msg: t.msgElementAdded, type: 'success' });
-        } catch (err: any) {
-          setNotification({ msg: err.message || t.error, type: 'error' });
-        } finally {
-          setIsAddingPhoto(false);
-          if (additionalPhotoRef.current) additionalPhotoRef.current.value = '';
-        }
-      };
-      reader.readAsDataURL(file);
+        const pastProjects = await getProjects();
+        const newAnalysis = await analyzeRestorationImage(base64, language, pastProjects);
+        
+        // Tag new components with the additional image
+        const taggedComponents = newAnalysis.components.map(c => ({ ...c, sourceImage: result }));
+        
+        setReport(prev => {
+          if (!prev) return prev;
+          return {
+            ...prev,
+            components: [...prev.components, ...taggedComponents],
+            additionalImages: [...(prev.additionalImages || []), result]
+          };
+        });
+        await logUserAction('add_additional_photo', { project_id: report.id });
+        setNotification({ msg: t.msgElementAdded, type: 'success' });
+      } catch (err: any) {
+        setNotification({ msg: err.message || t.error, type: 'error' });
+      } finally {
+        setIsAddingPhoto(false);
+        if (additionalPhotoRef.current) additionalPhotoRef.current.value = '';
+      }
     }
   };
 
