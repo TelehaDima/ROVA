@@ -36,6 +36,8 @@ jobs:
           VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          VITE_TELEGRAM_BOT_TOKEN: ${{ secrets.VITE_TELEGRAM_BOT_TOKEN }}
+          VITE_TELEGRAM_CHAT_IDS: ${{ secrets.VITE_TELEGRAM_CHAT_IDS }}
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
