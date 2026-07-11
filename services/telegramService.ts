@@ -1,5 +1,5 @@
-export const TELEGRAM_BOT_TOKEN = '8727799033:AAHWPlXCgFgI55QpQjO6lxyCBcDB4LKx0EY';
-export const TELEGRAM_CHAT_IDS: string[] = ['823526633', '917939980'];
+export const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_BOT_TOKEN;
+export const TELEGRAM_CHAT_IDS: string[] = import.meta.env.VITE_TELEGRAM_CHAT_IDS?.split(',') || [];
 
 export type FeedbackType = 'idea' | 'bug' | 'review' | 'question';
 
